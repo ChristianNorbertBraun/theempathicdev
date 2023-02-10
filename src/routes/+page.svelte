@@ -2,8 +2,8 @@
 	import Card from '../lib/Card.svelte';
 </script>
 
-<div class="grid grid-cols-1 w-screen p-4 gap-4">
-	<Card class="gradient text-gray-800">
+<div class="grid grid-cols-1 w-screen p-4 gap-4 md:grid-cols-5 max-w-6xl m-auto">
+	<Card class="gradient text-gray-800 md:col-span-3">
 		<h1 class="text-4xl font-semibold">I'm Christian iOS Freelancer with 6 years of experience</h1>
 		<p>
 			I care a lot about human friendly interface design and excellent code quality. Don’t take my
@@ -16,7 +16,7 @@
 			>
 		</div>
 	</Card>
-	<Card class="bg-[url('/img/avatar.jpeg')] bg-cover bg-center">
+	<Card class="bg-[url('/img/avatar.jpeg')] bg-cover bg-center md:col-span-2">
 	</Card>
 </div>
 
