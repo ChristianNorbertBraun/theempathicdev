@@ -42,7 +42,7 @@
 				Talk is easy, action is what counts. View a list of selected projects I have been involved
 				in.
 			</p>
-			<ArrowButton link="/portfolio" />
+			<ArrowButton link="/pdf/Portfolio_Christian_Braun_tac.pdf" />
 		</Card>
 	</div>
 </div>
