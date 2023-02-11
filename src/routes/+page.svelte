@@ -1,10 +1,11 @@
 <script>
-	import Card from '../lib/Card.svelte';
+	import ArrowButton from '$lib/ArrowButton.svelte';
+import Card from '../lib/Card.svelte';
 </script>
 
-<div class="grid grid-cols-1 w-screen p-4 gap-4 md:grid-cols-5 max-w-6xl m-auto">
-	<Card class="gradient text-gray-800 md:col-span-3">
-		<h1 class="text-4xl font-semibold">I'm Christian iOS Freelancer with 6 years of experience</h1>
+<div class="grid grid-cols-1 w-screen p-4 gap-4 md:grid-cols-10 max-w-6xl m-auto">
+	<Card class="bg-gradient-to-tr from-slate-300 to-blue-200 text-gray-800 md:col-span-6">
+		<h1 class="text-4xl font-bold">I'm Christian, iOS Freelancer with 6 years of experience</h1>
 		<p>
 			I care a lot about human friendly interface design and excellent code quality. Don’t take my
 			word for it, check out my portfolio.
@@ -16,13 +17,15 @@
 			>
 		</div>
 	</Card>
-	<Card class="bg-[url('/img/avatar.jpeg')] bg-cover bg-center md:col-span-2">
+	<Card class="bg-[url('/img/avatar.jpeg')] bg-cover bg-center md:col-span-4">
+	</Card>
+	<Card class="bg-black md:col-span-5 text-white">
+		<h2 class="text-2xl font-semibold">My Podcast</h2>
+		<ArrowButton/>
+	</Card>
+	<Card class="bg-emerald-400 md:col-span-5 text-white bg-[url('/img/portfolio.png')] bg-contain bg-origin-padding bg-[bottom_-5rem_right_1.5rem] md:bg-[bottom_-3rem_right_1.5rem] bg-no-repeat">
+		<h2 class="text-2xl font-semibold">My Portfolio</h2>
+		<p>Talk is easy, action is what counts. View a list of selected projects I have been involved in.</p>
+		<ArrowButton/>
 	</Card>
 </div>
-
-<style>
-	:global(.gradient) {
-		background: rgb(34, 193, 195);
-		background: linear-gradient(57deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
-	}
-</style>
