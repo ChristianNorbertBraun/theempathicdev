@@ -7,7 +7,7 @@
 		<div class="h-3 w-3 bg-red-600 rounded-full" />
 		<div class="h-3 w-3 bg-yellow-400 rounded-full" />
 		<div class="h-3 w-3 bg-green-500 rounded-full" />
-		<span class="ml-auto">The empathic dev</span>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a>
 	</div>
 	<slot />
 
