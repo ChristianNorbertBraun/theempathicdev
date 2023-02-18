@@ -538,11 +538,11 @@ video {
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
-.bg-\[url\(\'\/img\/avatar\.jpg\'\)\] {
-  background-image: url('/img/avatar.jpg');
+.bg-\[url\(\'\/img\/avatar\.webp\'\)\] {
+  background-image: url('/img/avatar.webp');
 }
-.bg-\[url\(\'\/img\/portfolio\.png\'\)\] {
-  background-image: url('/img/portfolio.png');
+.bg-\[url\(\'\/img\/portfolio\.webp\'\)\] {
+  background-image: url('/img/portfolio.webp');
 }
 .from-slate-300 {
   --tw-gradient-from: #cbd5e1;
