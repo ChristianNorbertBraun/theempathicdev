@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</Card>
-		<Card class="bg-[url('/img/avatar.jpeg')] bg-cover bg-center md:col-span-4 h-96" />
+		<Card class="bg-[url('/img/avatar.jpg')] bg-cover bg-center md:col-span-4 h-96" />
 		<Card class="bg-black md:col-span-5 text-white h-96">
 			<h2 class="text-2xl font-semibold">My Podcast</h2>
 			<img
@@ -49,6 +49,6 @@
 				Talk is easy, action is what counts. View a list of selected projects I have been involved
 				in.
 			</p>
-			<ArrowButton link="/pdf/Portfolio_Christian_Braun_tac.pdf" />
+			<ArrowButton link="/pdf/portfolio_tac.pdf" />
 		</Card>
 	</div>

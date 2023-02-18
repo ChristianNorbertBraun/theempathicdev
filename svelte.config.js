@@ -12,11 +12,16 @@ const config = {
 			postcss: true
 		})
 	],
-
 	kit: {
 		adapter: adapter({
-			fallback: "index.html"
-		})
+			// default options are shown. On some platforms
+			// these options are set automatically — see below
+			pages: 'build',
+			assets: 'build',
+			fallback: null,
+			precompress: false,
+			strict: true
+		  })
 	}
 };
 

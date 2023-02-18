@@ -11,7 +11,7 @@
 	</div>
 	<slot />
 
-	<footer class="mt-4">
+	<footer class="mt-8">
 		<hr class="w-full" />
 		<div class="flex mt-4">
 			<a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a>
