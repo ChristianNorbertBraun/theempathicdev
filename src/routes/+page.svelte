@@ -31,18 +31,18 @@
 				</div>
 			</div>
 		</Card>
-		<Card class="bg-[url('/img/avatar.jpg')] bg-cover bg-center md:col-span-4 h-96" />
+		<Card class="bg-[url('/img/avatar.webp')] bg-cover bg-center md:col-span-4 h-96" />
 		<Card class="bg-black md:col-span-5 text-white h-96">
 			<h2 class="text-2xl font-semibold">My Podcast</h2>
 			<img
 				class="max-h-[65%] object-contain justify-self-center place-content-center"
-				src="img/ioob.jpg"
+				src="img/ioob.webp"
 				alt="The logo of the Index out of Bounds podcast"
 			/>
 			<ArrowButton link="https://anchor.fm/indexoutofbounds" />
 		</Card>
 		<Card
-			class="bg-[#95B39D] md:col-span-5 h-96 text-white bg-[url('/img/portfolio.png')] bg-contain bg-origin-padding bg-[bottom_-5rem_right_1.5rem] md:bg-[bottom_-3rem_right_1.5rem] bg-no-repeat"
+			class="bg-[#95B39D] md:col-span-5 h-96 text-white bg-[url('/img/portfolio.webp')] bg-contain bg-origin-padding bg-[bottom_-5rem_right_1.5rem] md:bg-[bottom_-3rem_right_1.5rem] bg-no-repeat"
 		>
 			<h2 class="text-2xl font-semibold">My Portfolio</h2>
 			<p>
