@@ -17,7 +17,11 @@
 		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-c710d2de.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/_layout.ts-9cbb603b.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_layout-da46b06b.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/imprint/_page.svelte-30ad6c32.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/blog/_page.svelte-30c8af2c.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Card-214b2bf1.js">
+		<link rel="modulepreload" href="./_app/immutable/modules/pages/blog/_page.ts-b9b8ed9c.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/_page-a1d85483.js">
 </head>
 
 <body data-sveltekit-preload-data="hover">
@@ -28,25 +32,28 @@
 		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
 		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
 		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
-	<div class="flex flex-col gap-4"><h1 class="text-4xl font-bold">Imprint</h1>
-	<div><h2 class="text-2xl font-bold">Contact</h2>
-		<p>Christian Braun</p>
-		<a class="hover:bg-black hover:text-white" href="mailto:christian.braun@theempathicdev.de">christian.braun[at]theempathicdev.de</a></div></div>
+	<div class="bg-gray-400 md:h-[35rem] rounded-xl p-8 flex flex-col gap-4 hover:scale-[101%] transition ease-linear md:h-[unset] bg-zinc-800"><a href="blog/making-code-testable"><div class="flex rounded-xl flex-col p-8 bg-zinc-600 gap-2 "><h2 class="text-2xl font-semibold text-white">Making code testable</h2>
+				<p class="text-slate-300">How I approached nested code to make it testable</p></div>
+		</a><a href="blog/foo-baz"><div class="flex rounded-xl flex-col p-8 bg-zinc-600 gap-2 "><h2 class="text-2xl font-semibold text-white">Foo Baz</h2>
+				<p class="text-slate-300">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vestibulum odio nisl, nec pretium dolor varius in.</p></div>
+		</a><a href="blog/foo-bar"><div class="flex rounded-xl flex-col p-8 bg-zinc-600 gap-2 "><h2 class="text-2xl font-semibold text-white">Foo Bar</h2>
+				<p class="text-slate-300">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vestibulum odio nisl, nec pretium dolor varius in.</p></div>
+		</a></div>
 
 	<footer class="mt-8"><hr class="w-full">
 		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
 
 
-		<script type="module" data-sveltekit-hydrate="16cvoq7">
+		<script type="module" data-sveltekit-hydrate="10iks2i">
 			import { start } from "./_app/immutable/start-df3e905f.js";
 
 			start({
 				assets: "",
 				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="16cvoq7"]').parentNode,
+				target: document.querySelector('[data-sveltekit-hydrate="10iks2i"]').parentNode,
 				version: "1677514703795",
 				hydrate: {
-					node_ids: [0, 5],
+					node_ids: [0, 3],
 					data: [null,null],
 					form: null,
 					error: null
