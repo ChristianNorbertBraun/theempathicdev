@@ -3,10 +3,19 @@ const config = {
 
 	theme: {
 		extend: {
+			typography: {
+				DEFAULT: {
+				  css: {
+					maxWidth: '80ch', // add required value here
+				  }
+				}
+			  }
 		  }
 	},
 
-	plugins: []
+	plugins: [
+		require('@tailwindcss/typography'),
+	]
 };
 
 module.exports = config;
