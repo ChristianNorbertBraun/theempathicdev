@@ -5,7 +5,7 @@
 
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-10">
 		<Card class="bg-gradient-to-tr from-slate-300 to-blue-200 text-gray-800 md:col-span-6">
-			<h1 class="text-4xl font-bold">I'm Christian, iOS Freelancer with 6 years of experience</h1>
+			<h1 class="text-4xl font-bold">I'm Christian, iOS Freelancer with 7 years of experience</h1>
 			<p>
 				I care a lot about human friendly interface design and excellent code quality. Don’t take my
 				word for it, check out my portfolio.
