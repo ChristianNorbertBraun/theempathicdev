@@ -887,9 +887,9 @@ video {
 .bg-white\/30 {
   background-color: rgb(255 255 255 / 0.3);
 }
-.bg-neutral-800 {
+.bg-stone-800 {
   --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity));
+  background-color: rgb(41 37 36 / var(--tw-bg-opacity));
 }
 .bg-zinc-600 {
   --tw-bg-opacity: 1;
