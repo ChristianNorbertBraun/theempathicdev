@@ -9,7 +9,7 @@
 
 </script>
 
-<Card class="md:h-[unset] bg-neutral-800 {clazz}">
+<Card class="md:h-[unset] bg-stone-800 {clazz}">
 	<slot/>
 	{#each data.posts as post}
 		<a href="blog/{post.slug}">
