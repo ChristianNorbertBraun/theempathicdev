@@ -1,6 +1,9 @@
 <script>
 	import ArrowButton from '$lib/ArrowButton.svelte';
 	import Card from '../lib/Card.svelte';
+	import BlogCard from '../lib/BlogCard.svelte';
+
+	export let data;
 </script>
 
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-10">
@@ -51,4 +54,12 @@
 			</p>
 			<ArrowButton link="/pdf/portfolio_tac.pdf" />
 		</Card>
+	<BlogCard class="md:col-span-10 text-white" data={data}>
+		<h2 class="text-2xl font-semibold">My Blog</h2>
+		<p>
+			Humble thoughts and insights on software development, design and the human side of working in tech.
+		</p>
+
+		<ArrowButton slot="bottom" link="/blog" />
+	</BlogCard>
 	</div>

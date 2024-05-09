@@ -3,15 +3,28 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
+
+	function dateString(date) {
+		let formattedDate = new Date(date).toLocaleDateString('en-US', {
+			weekday: 'long', // "Monday"
+			year: 'numeric', // "2023"
+			month: 'long', // "January"
+			day: 'numeric' // "1"
+		});
+		return formattedDate;
+	}
 </script>
 
-<Card class="md:h-[unset] bg-zinc-800">
+<h1 class="text-4xl font-bold">My Blog</h1>
+<div class="my-8">
 	{#each data.posts as post}
 		<a href="blog/{post.slug}">
-			<div class="flex rounded-xl flex-col p-8 bg-zinc-600 gap-2 ">
-				<h2 class="text-2xl font-semibold text-white">{post.title}</h2>
-				<p class="text-slate-300">{post.description}</p>
+			<div class="transition flex rounded-xl flex-col p-8 gap-2 transition-property: all transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) transition-duration: 150ms hover:bg-slate-200">
+				<h2 class="text-2xl font-semibold text-gray">{post.title}</h2>
+				<p class="text-sm text-slate-500">{dateString(post.date)}</p>
+				<p class="text-slate-600">{post.description}..</p>
 			</div>
 		</a>
+		<hr class="w-4/5" />
 	{/each}
-</Card>
+</div>
