@@ -21,7 +21,7 @@ Let's dive into these steps using my work on the PICABOO image editing app as an
 
 Recently, I had to overhaul how we handle default settings for each filter. We shifted from a single default setting for all filters to a system where the backend allows custom overrides for each and every filter as needed. For example, adding a grain effect by default only for filters mimicking old cameras.
 
-<video width="320" height="240" controls autoplay>
+<video width="320" height="240" controls>
   <source src="/blog/creating-features-in-existing-code/picaboovideo.mp4" type="video/mp4">
 </video>
 
