@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="font-mono bg-slate-100">
+
+<head>
+	<title>The empathic dev</title>
+	<meta name="description" content="An iOS Freelancer who puts communication and understanding of the client first. Coupled with solid developer skills we make your project successful.">
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png?v=3" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="content-security-policy" content="">
+		<link href="../_app/immutable/assets/_layout-61219603.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/_page-36cf3c0d.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/start-385aabd2.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index-a710900e.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-03f1ed26.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/_layout.svelte-49658a17.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/_layout.ts-9cbb603b.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/blog/_slug_/_page.svelte-0c776f52.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/blog/_slug_/_page.ts-50b40e4d.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-043c94e1.js">
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">
+
+
+<div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl"><div class="pb-4 flex gap-1 items-center"><div class="h-3 w-3 bg-red-600 rounded-full"></div>
+		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
+		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
+	<div class="flex flex-col items-center"><div><h1 class="text-4xl font-bold pb-4">Adding Features to an existing Codebase</h1>
+		<article class="prose"><p>Updating a legacy system can feel like unraveling a complex knot, especially when the changes impact several parts of the app. This is a challenge I face often, and I’ve been on a quest to find a strategy that works consistently for me.</p>
+<p>I’ve managed to develop a process that I now rely on:</p>
+<ol><li>Understand the problem’s structure</li>
+<li>Initiate with tracing bullets – Make it work somehow</li>
+<li>Develop a more refined solution</li>
+<li>Refactor again for optimization</li></ol>
+<p>Let’s dive into these steps using my work on the PICABOO image editing app as an example.</p>
+<p>Recently, I had to overhaul how we handle default settings for each filter. We shifted from a single default setting for all filters to a system where the backend allows custom overrides for each and every filter as needed. For example, adding a grain effect by default only for filters mimicking old cameras.</p>
+<video width="320" height="240" controls autoplay><source src="/blog/creating-features-in-existing-code/picaboovideo.mp4" type="video/mp4"></video>
+<p>Now, let’s break down how we tackled this:</p>
+<h2>1. Understand the problem’s structure</h2>
+<p>Grasping the scope of the problem early is tough for me. I tend to get stuck planning and theorizing, which slows down the actual work. I’ve learned to jump in sooner rather than later, balancing a thorough understanding with forward motion.</p>
+<p>First, we identify all the components that the change will touch. At this point, it’s about getting a bird’s-eye view of the system as it stands. What’s the starting point for our changes? Do they affect other modules? Maybe there’s something we can reuse? I like to jot down any initial thoughts or TODOs in the code comments.</p>
+<h3>In the case of PICABOO</h3>
+<p>For PICABOO, I mapped out where the filter settings were integrated within the system and how they’d shift with user interactions. Here’s what that looked like:</p>
+<p><img src="/blog/creating-features-in-existing-code/StatusQuoPicaboo.png" alt="The status quo of PICABOO as a diagramm"></p>
+<p>As illustrated, the <code>FaderSettings</code> establish the foundational tone for the workflow. After conversion to <code>NormalizedFilterSettings</code>, these settings, in conjunction with <code>FilterDefaults</code>, generate the <code>FilterSettings</code> employed for displaying and exporting the edited image in the app.</p>
+<p>By the way I failed here on my first go by just skipping it. I thought I knew the codebase inside out. It turns out, I didn’t. I lost an hour fixing mistakes from my assumptions—the fader settings, not the normalized settings, were the key players here.</p>
+<h2>2. Initiate with tracing bullets – Make it functional</h2>
+<p>Inspired by the <a href="https://www.amazon.de/Pragmatic-Programmer-Journeyman-Master/dp/020161622X" rel="nofollow">Pragmatic Programmer Book</a>, I learned to start with a rough, quick version. It’s not about perfection here—it’s about seeing the structure in action.</p>
+<h3>In the case of PICABOO</h3>
+<p><img src="/blog/creating-features-in-existing-code/TracingBulletsPicaboo.png" alt="The tracing bullets version of PICABOO"></p>
+<p>So it seems like there’s much more going on now, and indeed there is. After grasping the initial setup of the filter settings, I integrated the <code>CustomizedFilterSettings</code> directly into the creation process of the filter settings. Consequently, the <code>FaderSettings</code> couldn’t solely dictate the workflow anymore; the relationship had to be bidirectional. <code>FaderSettings</code> would generate <code>NormalizedFilterSettings</code> and vice versa. This required a fair amount of rapid and rough coding—establishing mock backend data, tweaking settings, and yes, things got pretty chaotic at times.</p>
+<h2>3. Develop a more refined solution</h2>
+<p>Now, resist the urge to just patch the initial draft. It’s time to step back, reassess the foundational structure, and redesign the solution from a clearer perspective. I often grab a pen and paper at this stage to sketch out my thoughts and redraw an optimized architecture.
+As your solution should be pretty close to the it’s final form after this step, don’t forget to add your unit tests in this step. This way you don’t get bogged down in an architecture that is not testable. It also makes the last step easier, in which you refactor your solution further.</p>
+<h3>In the case of PICABOO</h3>
+<p>This led to a complete rewrite of how settings were managed, resulting in a much cleaner system.
+<img src="/blog/creating-features-in-existing-code/PicabooFinished.png" alt="The refactored filter settings handling in PICABOO"></p>
+<p>Once again, we have a unified starting point, the <code>FilterRangesAndDefaultValues</code>, which can be tailored using the <code>CustomizedFilterSettings</code> for a specific filter. From here, we generate the filter settings for both exported and displayed images by combining the customized <code>FilterRangesAndDefaultValues</code> with the current <code>FaderSettings</code>. Although this might not seem significantly different from the previous method, it greatly simplifies the addition and modification of filter settings. Essentially, everything originates from the <code>FilterRangesAndDefaultValues</code>, and any changes here trigger compiler errors that help navigate through the entire architecture when necessary. In my view, this strategy is not just a necessary adaptation for integrating custom settings per filter but also an enhancement of the filter settings overall.</p>
+<h2>4. Refactor again for optimization</h2>
+<p>After refining, I create a draft PR to make it easier to review all modifications compared to the base branch. This step allows tweaking, optimizing, and streamlining before finalizing. Add a couple more tests and you are done!</p>
+<h2>Final note</h2>
+<p>This personalized approach has made a huge difference for me. However, remember that once you’ve opened that PR, the review process begins. Embrace feedback, discuss openly, and refine further. Don’t be too narcissistic when it comes to your code. Take other people’s feedback into account, but don’t be afraid to disagree if you can rely on actual facts rather than feelings.</p></article></div>
+</div>
+
+	<footer class="mt-8"><hr class="w-full">
+		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
+
+
+		<script type="module" data-sveltekit-hydrate="19ci3xy">
+			import { start } from "../_app/immutable/start-385aabd2.js";
+
+			start({
+				assets: "",
+				env: {},
+				target: document.querySelector('[data-sveltekit-hydrate="19ci3xy"]').parentNode,
+				version: "1715287090379",
+				hydrate: {
+					node_ids: [0, 4],
+					data: [null,null],
+					form: null,
+					error: null
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>
