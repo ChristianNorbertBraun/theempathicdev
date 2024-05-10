@@ -65,7 +65,3 @@ After refining, I create a draft PR to make it easier to review all modification
 
 ## Final note
 This personalized approach has made a huge difference for me. However, remember that once you've opened that PR, the review process begins. Embrace feedback, discuss openly, and refine further. Don't be too narcissistic when it comes to your code. Take other people's feedback into account, but don't be afraid to disagree if you can rely on actual facts rather than feelings.
-
-```swift
-func main() {}
-```
