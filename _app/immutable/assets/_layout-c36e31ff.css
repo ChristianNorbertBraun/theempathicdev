@@ -1093,16 +1093,15 @@ video {
 .prose-code\:rounded :is(:where(code):not(:where([class~="not-prose"] *))) {
   border-radius: 0.25rem;
 }
-.prose-code\:bg-zinc-600 :is(:where(code):not(:where([class~="not-prose"] *))) {
+.prose-code\:bg-slate-200 :is(:where(code):not(:where([class~="not-prose"] *))) {
   --tw-bg-opacity: 1;
-  background-color: rgb(82 82 91 / var(--tw-bg-opacity));
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 .prose-code\:p-px :is(:where(code):not(:where([class~="not-prose"] *))) {
   padding: 1px;
 }
-.prose-code\:text-emerald-400 :is(:where(code):not(:where([class~="not-prose"] *))) {
-  --tw-text-opacity: 1;
-  color: rgb(52 211 153 / var(--tw-text-opacity));
+.prose-code\:font-normal :is(:where(code):not(:where([class~="not-prose"] *))) {
+  font-weight: 400;
 }
 @media (min-width: 768px) {
   .md\:col-span-6 {
