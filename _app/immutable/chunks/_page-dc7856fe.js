@@ -1,1 +1,0 @@
-import{f as e}from"./utils-1c6ef9ba.js";const o=!0;async function t(){return e(void 0)}const n=Object.freeze(Object.defineProperty({__proto__:null,load:t,prerender:o},Symbol.toStringTag,{value:"Module"}));export{n as _,t as l,o as p};
