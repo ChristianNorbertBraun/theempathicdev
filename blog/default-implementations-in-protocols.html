@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="font-mono bg-slate-100">
+
+<head>
+	<title>The empathic dev</title>
+	<meta name="description" content="An iOS Freelancer who puts communication and understanding of the client first. Coupled with solid developer skills we make your project successful.">
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png?v=3" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="content-security-policy" content="">
+		<link href="../_app/immutable/assets/_layout-51c659fd.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/_page-35270732.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/start-a5bbaa97.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index-a710900e.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-03f1ed26.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/_layout.svelte-023819a0.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/_layout.ts-9cbb603b.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/blog/_slug_/_page.svelte-68f5ec87.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/blog/_slug_/_page.ts-19ea38c4.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-4aac54c3.js">
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">
+
+
+<div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl"><div class="pb-4 flex gap-1 items-center"><div class="h-3 w-3 bg-red-600 rounded-full"></div>
+		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
+		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
+	<div class="flex flex-col items-center"><div><h1 class="text-4xl font-bold pb-4">The Issue with Protocol Extensions</h1>
+		<article class="prose prose-a:underline prose-a:decoration-emerald-400 prose-a:decoration-4 prose-code:bg-slate-200 prose-code:rounded prose-code:font-normal prose-code:p-px"><p>Protocol extensions are often used to simplify the creation of conforming types or to enable types to perform an action by merely adding a protocol conformance. For instance, an <code>Alertable</code> protocol could provide a default implementation for <code>showAlert(title: String, message: String?)</code> where <code>Self: UIViewController</code>. This way, presenting alerts on a viewcontroller becomes easy by just adding the <code>Alertable</code> protocol to the type definition.</p>
+<p>Protocol extensions are powerful for reducing code duplication and adding functionality to types with minimal code. However, I recently encountered some behavior that seemed unusual to me.</p>
+<h2>The problem</h2>
+<p>What would you expect the following code to print?</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">protocol</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"BaseType"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BaseClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"CustomizedClass"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">let</span> base<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+base<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code><!-- HTML_TAG_END --></pre>
+<p>My initial expectation was that it would print <code>&quot;CustomizedClass&quot;</code>. But the actual output is:</p>
+<pre class="language-undefined"><!-- HTML_TAG_START --><code class="language-undefined">&quot;BaseType&quot;</code><!-- HTML_TAG_END --></pre>
+<p>While this might only seem like an interesting quirk, it can cause problems in a codebase.</p>
+<h2>A more realistic example</h2>
+<p>Consider a scenario where you are writing a library that provides a service.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Service</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> errorHandler<span class="token punctuation">:</span> <span class="token class-name">CanHandleError</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>This <code>Service</code> expects a type conforming to <code>CanHandleError</code> to handle errors occurring during its execution.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">protocol</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">handle</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> error<span class="token punctuation">:</span> <span class="token class-name">Error</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">handle</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> error<span class="token punctuation">:</span> <span class="token class-name">Error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Error: </span><span class="token interpolation-punctuation punctuation">(</span><span class="token interpolation">error</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>You provide a default implementation for <code>handle</code> to make it easier and faster for types to conform to <code>CanHandleError</code>. This default implementation could be sending the error to an analysis backend or raising an error alert to the user.</p>
+<p>You might have a class that conforms to <code>CanHandleError</code> and provides additional functions for the consumer of your library.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">DefaultApplicationEngine</span><span class="token punctuation">:</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// Some more open functions</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>This might lead the consumer of your library to believe they can override the <code>handle(_ error: Error)</code> method when subclassing <code>DefaultApplicationEngine</code>.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">CustomizedApplicationEngine</span><span class="token punctuation">:</span> <span class="token class-name">DefaultApplicationEngine</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">handle</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> error<span class="token punctuation">:</span> <span class="token class-name">Error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Customized Error: </span><span class="token interpolation-punctuation punctuation">(</span><span class="token interpolation">error</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token class-name">Service</span><span class="token punctuation">(</span>errorHandler<span class="token punctuation">:</span> <span class="token class-name">CustomizedApplicationEngine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>errorHandler
+    <span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">ApplicationError</span><span class="token punctuation">.</span>wrongConfiguration<span class="token punctuation">)</span> <span class="token comment">// Outputs "Error: ApplicationError.wrongConfiguration"</span></code><!-- HTML_TAG_END --></pre>
+<p>This will cause the code in the protocol extension to be executed instead of the subclass implementation.</p>
+<h2>Why is this happening?</h2>
+<p>To understand why this happens, let’s revisit the introductory example.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">protocol</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"BaseType"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BaseClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"CustomizedClass"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">let</span> base<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+base<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code><!-- HTML_TAG_END --></pre>
+<p>The reason is due to the way method dispatch works in Swift. Protocol extension methods are <strong>statically dispatched</strong>. This means the method implementation used is determined at compile time based on the static type of the variable (<code>BaseType</code> in this case), not the dynamic type (<code>CustomizedClass</code>).</p>
+<p>This behavior has been discussed multiple times already. For example in these forum posts from 2015<a href="https://forums.swift.org/t/proposal-universal-dynamic-dispatch-for-method-calls/237" rel="nofollow">[1]</a><a href="https://developer.apple.com/forums/thread/11426" rel="nofollow">[2]</a>. For more information on what protocols are capable of, read the <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/" rel="nofollow">protocols section of the Swift language documentation</a>. It’s absolutely worth it.</p>
+<p>In our case, we want a dynamically dispatched method call.</p>
+<h2>The simple solution</h2>
+<p>The simplest solution is to remove the default implementation from the protocol and force <code>BaseClass</code> to implement the function itself. This way, you will also be required to use the <code>override</code> keyword in the <code>CustomizedClass</code>.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">BaseClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"BaseClass"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">override</span> <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"CustomizedClass"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">let</span> base<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+base<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// Outputs "CustomizedClass"</span></code><!-- HTML_TAG_END --></pre>
+<p>With this small change, we switch from a statically dispatched method call to a dynamically dispatched one. This also ensures that subclasses can override the function properly.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// does not override doSomething</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AnotherClass</span><span class="token punctuation">:</span> <span class="token class-name">CustomizedClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">override</span> <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"AnotherClass"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">let</span> base<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">AnotherClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+base<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// Outputs "AnotherClass"</span></code><!-- HTML_TAG_END --></pre>
+<p>By forcing the conforming types to implement the function, we ensure dynamic dispatch and maintain the expected behavior.</p>
+<h2>Is there a better solution?</h2>
+<p>In my opinion, yes. By leveraging composition instead of inheritance and using structs instead of protocols, you can achieve a more flexible and maintainable design. This approach is also promoted by the brilliant minds at Point-Free. For example, in their video on <a href="https://www.youtube.com/watch?v=3BVkbWXcFS4" rel="nofollow">Protocol Witnesses</a> or their <a href="https://www.pointfree.co/collections/dependencies" rel="nofollow">series on designing better dependencies</a>.</p>
+<p>Using composition and structs, along with my own spin on making the API similar to the one defined before, results in the following code:</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token comment">// Define the protocol with default implementation</span>
+<span class="token keyword">protocol</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> behavior<span class="token punctuation">:</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span> <span class="token keyword">get</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        behavior<span class="token punctuation">.</span><span class="token function">onAction</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// Struct for holding the behavior</span>
+<span class="token keyword">struct</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> onAction<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">Void</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token keyword">let</span> &#96;<span class="token keyword">default</span>&#96; <span class="token operator">=</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"BaseType"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// Class conforming to BaseType and using composition for behavior</span>
+<span class="token keyword">class</span> <span class="token class-name">BaseClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> behavior<span class="token punctuation">:</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token keyword">default</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">:</span> <span class="token class-name">BaseClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">override</span> <span class="token keyword">var</span> behavior<span class="token punctuation">:</span> <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Behavior</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"CustomizedClass"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// Usage</span>
+<span class="token keyword">let</span> base<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">BaseClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+base<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// Outputs "BaseType"</span>
+
+<span class="token keyword">let</span> customized<span class="token punctuation">:</span> <span class="token class-name">BaseType</span> <span class="token operator">=</span> <span class="token class-name">CustomizedClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+customized<span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// Outputs "CustomizedClass"</span></code><!-- HTML_TAG_END --></pre>
+<p>Now, any type conforming to <code>BaseType</code> is forced to provide a <code>Behavior</code>. You might argue that in the original implementation, conforming types did not need to do anything, and this solution might seem worse. However, I want to point out that no matter how many functions are provided by the behavior, the <code>BaseClass</code> will always only have to provide a single line to define the behavior and can leverage the full power of the default implementation. Additionally, subclasses of <code>BaseClass</code> don’t need to provide a custom behavior, and the behavior can still be customized further down the inheritance tree.</p>
+<h2>The suggested approach applied</h2>
+<p>I see the theory might be a bit hard to grasp, but let’s have a final look on the reworked realistic example from ealier.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> onError<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token class-name">Error</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">Void</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token keyword">let</span> &#96;<span class="token keyword">default</span>&#96; <span class="token operator">=</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span> error <span class="token keyword">in</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Error: </span><span class="token interpolation-punctuation punctuation">(</span><span class="token interpolation">error</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">protocol</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> errorHandling<span class="token punctuation">:</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span> <span class="token keyword">get</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">extension</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">handle</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> error<span class="token punctuation">:</span> <span class="token class-name">Error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        errorHandling<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">DefaultApplicationEngine</span><span class="token punctuation">:</span> <span class="token class-name">CanHandleError</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> errorHandling<span class="token punctuation">:</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token keyword">default</span> <span class="token punctuation">&#125;</span>
+    <span class="token comment">// Some more open functions</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CustomizedApplicationEngine</span><span class="token punctuation">:</span> <span class="token class-name">DefaultApplicationEngine</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">override</span> <span class="token keyword">var</span> errorHandling<span class="token punctuation">:</span> <span class="token class-name">ErrorHandling</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">.</span><span class="token keyword">init</span> <span class="token punctuation">&#123;</span> error <span class="token keyword">in</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Custom Error: </span><span class="token interpolation-punctuation punctuation">(</span><span class="token interpolation">error</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">Service</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> errorHandler<span class="token punctuation">:</span> <span class="token class-name">CanHandleError</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token class-name">Service</span><span class="token punctuation">(</span>errorHandler<span class="token punctuation">:</span> <span class="token class-name">CustomizedApplicationEngine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>errorHandler
+    <span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">ApplicationError</span><span class="token punctuation">.</span>wrongConfiguration<span class="token punctuation">)</span></code><!-- HTML_TAG_END --></pre>
+<h2>Conclusion</h2>
+<p>While protocol extensions provide a powerful tool for reducing code duplication and adding functionality, they come with their own set of challenges, particularly around method dispatch. The solutions discussed here, such as removing default implementations and leveraging composition, offer ways to ensure dynamic behavior and maintainable code. However, these are just ideas that need to prove themselves in real-world applications. This behavior of protocol extensions is not new, but understanding and addressing it can save you from unexpected bugs and design pitfalls.</p></article></div>
+</div>
+
+	<footer class="mt-8"><hr class="w-full">
+		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
+
+
+		<script type="module" data-sveltekit-hydrate="vg7u8o">
+			import { start } from "../_app/immutable/start-a5bbaa97.js";
+
+			start({
+				assets: "",
+				env: {},
+				target: document.querySelector('[data-sveltekit-hydrate="vg7u8o"]').parentNode,
+				version: "1719136287875",
+				hydrate: {
+					node_ids: [0, 4],
+					data: [null,null],
+					form: null,
+					error: null
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>
