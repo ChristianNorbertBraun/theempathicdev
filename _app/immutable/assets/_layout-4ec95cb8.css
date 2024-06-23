@@ -1090,6 +1090,9 @@ video {
 .prose-a\:decoration-4 :is(:where(a):not(:where([class~="not-prose"] *))) {
   text-decoration-thickness: 4px;
 }
+.prose-code\:overflow-y-scroll :is(:where(code):not(:where([class~="not-prose"] *))) {
+  overflow-y: scroll;
+}
 .prose-code\:rounded :is(:where(code):not(:where([class~="not-prose"] *))) {
   border-radius: 0.25rem;
 }
@@ -1120,14 +1123,23 @@ video {
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-  .md\:h-\[unset\] {
-    height: unset;
+  .md\:flex {
+    display: flex;
+  }
+  .md\:h-\[40rem\] {
+    height: 40rem;
   }
   .md\:h-\[35rem\] {
     height: 35rem;
   }
   .md\:grid-cols-10 {
     grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .md\:items-center {
+    align-items: center;
+  }
+  .md\:justify-center {
+    justify-content: center;
   }
   .md\:rounded-xl {
     border-radius: 0.75rem;
