@@ -1,0 +1,23 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>The empathic dev</title>
+<link>https://theempathicdev.de</link>
+<description>Exploring iOS development through the lens of an experienced freelancer, this blog emphasizes the critical roles of communication and empathy in tech. Dive into personal insights and professional tips that elevate both code and collaboration.</description>
+<language>en-us</language>
+
+<item>
+<title>The Issue with Protocol Extensions</title>
+<link>https://theempathicdev.de/blog/default-implementations-in-protocols</link>
+<description>Protocol extensions are a great way to simplify the creation of conforming types or enable types to perform actions by simply adding a protocol conformance. However, this convenience comes with its own set of drawbacks. Let's explore why protocol extensions might not always behave as expected and how to effectively resolve these issues.</description>
+<pubDate>Sun, 23 Jun 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+<title>Adding Features to an existing Codebase</title>
+<link>https://theempathicdev.de/blog/creating-features-in-existing-code</link>
+<description>Updating a legacy system can feel like unraveling a complex knot, especially when the changes impact several parts of the app. This is a challenge I face often, and I've been on a quest to find a strategy that works consistently for me.</description>
+<pubDate>Thu, 09 May 2024 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
