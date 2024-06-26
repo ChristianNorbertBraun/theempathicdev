@@ -1,5 +1,5 @@
 <script>
-	import '../app.postcss';
+	import '../../app.postcss';
 </script>
 
 <div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl">

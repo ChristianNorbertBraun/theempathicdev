@@ -1,7 +1,7 @@
 <script>
 	import ArrowButton from '$lib/ArrowButton.svelte';
-	import Card from '../lib/Card.svelte';
-	import BlogCard from '../lib/BlogCard.svelte';
+	import Card from '$lib/Card.svelte';
+	import BlogCard from '$lib/BlogCard.svelte';
 
 	export let data;
 </script>
