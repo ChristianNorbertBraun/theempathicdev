@@ -10,7 +10,7 @@
 	<meta http-equiv="content-security-policy" content="">
 		<link href="../_app/immutable/assets/_layout-495facdb.css" rel="stylesheet">
 		<link href="../_app/immutable/assets/_page-35270732.css" rel="stylesheet">
-		<link rel="modulepreload" href="../_app/immutable/start-33c9eae8.js">
+		<link rel="modulepreload" href="../_app/immutable/start-a1a3c1f0.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/index-e94212ef.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-79a8883c.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
@@ -19,7 +19,7 @@
 		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/_layout.svelte-10cdb44e.js">
 		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/_layout.ts-e992bf42.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
-		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-c3eefd3e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-f9621929.js">
 		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-e6bf6d8c.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/_page-dee044db.js">
@@ -34,6 +34,7 @@
 		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
 		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
 	<div class="md:flex md:items-center md:justify-center"><div><h1 class="text-4xl font-bold pb-4">The Issue with Protocol Extensions</h1>
+		<p class="text-sm text-slate-500">Sunday, June 23, 2024</p>
 		<article class="prose prose-a:underline prose-a:decoration-emerald-400 prose-a:decoration-4 prose-code:bg-slate-200 prose-code:rounded prose-code:font-normal prose-code:p-px prose-code:overflow-y-scroll prose-code:max-w-1 pre:overflow-y-scroll"><p>Protocol extensions are often used to simplify the creation of conforming types or to enable types to perform an action by merely adding a protocol conformance. For instance, an <code>Alertable</code> protocol could provide a default implementation for <code>showAlert(title: String, message: String?)</code> where <code>Self: UIViewController</code>. This way, presenting alerts on a viewcontroller becomes easy by just adding the <code>Alertable</code> protocol to the type definition.</p>
 <p>Protocol extensions are powerful for reducing code duplication and adding functionality to types with minimal code. However, I recently encountered some behavior that seemed unusual to me.</p>
 <h2>The problem</h2>
@@ -242,14 +243,14 @@ customized<span class="token punctuation">.</span><span class="token function">d
 		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
 
 
-		<script type="module" data-sveltekit-hydrate="1hx1xw6">
-			import { start } from "../_app/immutable/start-33c9eae8.js";
+		<script type="module" data-sveltekit-hydrate="1tqzrnw">
+			import { start } from "../_app/immutable/start-a1a3c1f0.js";
 
 			start({
 				assets: "",
 				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="1hx1xw6"]').parentNode,
-				version: "1719432218691",
+				target: document.querySelector('[data-sveltekit-hydrate="1tqzrnw"]').parentNode,
+				version: "1721124715733",
 				hydrate: {
 					node_ids: [0, 2, 5],
 					data: [null,null,null],
