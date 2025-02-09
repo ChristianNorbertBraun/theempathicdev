@@ -7,6 +7,11 @@
 <language>en-us</language>
 <atom:link href="https://theempathicdev.de/rss.xml" rel="self" type="application/rss+xml" />
 <item>
+<title>I Hated Kotlin... Until I Didn’t – Why KMP Might Be Worth It for iOS Developers</title>
+<link>https://theempathicdev.de/blog/hate-love-kotlin</link>
+<description>Taking a closer look into Kotlin and KMP can feel like bonding with the enemy for an iOS developer. I really wanted to hate it, but my journey took an unexpected turn. This is my story of moving from resistance to understanding, exploring the quirks, challenges, and ultimately rediscovering what it truly means to be a developer.</description>
+<pubDate>Sun, 09 Feb 2025 00:00:00 GMT</pubDate>
+</item><item>
 <title>The Issue with Protocol Extensions</title>
 <link>https://theempathicdev.de/blog/default-implementations-in-protocols</link>
 <description>Protocol extensions are a great way to simplify the creation of conforming types or enable types to perform actions by simply adding a protocol conformance. However, this convenience comes with its own set of drawbacks. Let's explore why protocol extensions might not always behave as expected and how to effectively resolve these issues.</description>

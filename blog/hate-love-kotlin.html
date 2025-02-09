@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" class="font-mono bg-slate-100">
+
+<head>
+	<title>The empathic dev</title>
+	<meta name="description" content="An iOS Freelancer who puts communication and understanding of the client first. Coupled with solid developer skills we make your project successful.">
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png?v=3" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="content-security-policy" content="">
+		<link href="../_app/immutable/assets/_layout-fe698756.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/_page-35270732.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/start-c537f10c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index-e94212ef.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-79a8883c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/layout.svelte-236dccdf.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/_layout.svelte-f85820c8.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/_layout.ts-e992bf42.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-f1d39366.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-17e02763.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-b86738b0.js">
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">
+
+
+<div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl"><div class="pb-4 flex gap-1 items-center"><div class="h-3 w-3 bg-red-600 rounded-full"></div>
+		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
+		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
+	<div class="md:flex md:items-center md:justify-center"><div class="prose"><h1 class="text-4xl font-bold pb-4">I Hated Kotlin... Until I Didn’t – Why KMP Might Be Worth It for iOS Developers</h1>
+		<p class="text-sm text-slate-500">Sunday, February 9, 2025</p>
+		<article class="prose prose-a:underline prose-a:decoration-emerald-400 prose-a:decoration-4 prose-code:bg-slate-200 prose-code:rounded prose-code:font-normal prose-code:p-px prose-code:overflow-y-scroll prose-code:max-w-1 pre:overflow-y-scroll"><h2>I Hate Kotlin</h2>
+<p>I hate Kotlin for being the language used to develop Android apps. This probably comes from the fact that I’m an iOS developer through and through.
+I hate that Kotlin’s syntax is so close to Swift’s. After switching to Kotlin, I keep writing <code>func foo()</code> for the first few minutes. Then, when switching back, I mistakenly write <code>fun foo()</code> in Swift.
+And why is there a <code>data class</code> and a <code>class</code> while both are reference types? I hate that there is no counterpart for Swift’s <code>struct</code>. Also, when writing Kotlin, you can be sure: there is always a more idiomatic way to write what you just did!</p>
+<h3>What About the Return Behavior?</h3>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token comment">// Swift</span>
+<span class="token keyword">func</span> <span class="token function-definition function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
+  <span class="token string-literal"><span class="token string">"foo"</span></span>
+<span class="token punctuation">&#125;</span> <span class="token comment">// returns "foo"</span>
+
+<span class="token comment">// Kotlin</span>
+fun <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
+  <span class="token string-literal"><span class="token string">"foo"</span></span>
+<span class="token punctuation">&#125;</span> <span class="token comment">// does not compile because it needs a return</span></code><!-- HTML_TAG_END --></pre>
+<p><strong>Exemple numéro deux</strong></p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">let</span> stringArray <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"1"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"2"</span></span><span class="token punctuation">]</span>
+
+<span class="token comment">// Swift</span>
+<span class="token keyword">func</span> <span class="token function-definition function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
+  stringArray<span class="token punctuation">.</span>map <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token short-argument">$0</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> <span class="token string-literal"><span class="token string">"result"</span></span>
+<span class="token punctuation">&#125;</span> <span class="token comment">// returns "result"</span>
+
+
+<span class="token comment">// Kotlin</span>
+fun <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
+  stringArray<span class="token punctuation">.</span>map <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> it
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> <span class="token string-literal"><span class="token string">"result"</span></span>
+<span class="token punctuation">&#125;</span> <span class="token comment">// returns "1"</span>
+
+<span class="token comment">// Correct solution would be to drop the return in this function like this:</span>
+
+fun <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
+  stringArray<span class="token punctuation">.</span>map <span class="token punctuation">&#123;</span>
+    it
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> <span class="token string-literal"><span class="token string">"result"</span></span>
+<span class="token punctuation">&#125;</span> <span class="token comment">// returns "result"</span></code><!-- HTML_TAG_END --></pre>
+<p>Yes, I know that <code>map</code> is an inline function and that this is the reason why it behaves that way. And yes, I know that you can do things with <code>return</code> in Kotlin that you can’t in Swift. But stuff like this makes it hard. It makes it hard to switch between Swift and Kotlin.</p>
+<h3>Kotlin Multiplatform</h3>
+<p>And I hate that even though Kotlin is mainly used for Android, it invades the iOS space through <a href="https://kotlinlang.org/docs/multiplatform.html" rel="nofollow">Kotlin Multiplatform (KMP)</a>.
+I hate that projects using KMP are often driven by Android developers. In this scenario, it can feel like always being behind, having less impact on the project’s direction, or constantly needing to fix issues in the shared Kotlin code to make it work for iOS.</p>
+<p>And I probably hate the most that Apple and Swift missed the opportunity to be the language that is shared between iOS and Android.</p>
+<h2>I Love Kotlin</h2>
+<p>I love Kotlin for being so similar to Swift. While learning, I can think about how I would do it in Swift and just search for, e.g., “Swift reduce in Kotlin.” I love the small differences that annoy me at first but then reveal the benefits of walking a different path to the same destination. I love Kotlin for its rich library of convenience functions that I never expected to be missing in Swift. I wish Swift had an <code>.apply{}</code> function.</p>
+<h3>Look at That IDE</h3>
+<p>It doesn’t matter whether it’s Android Studio or IntelliJ. With Xcode, I almost forgot how it feels to fully trust my IDE. I love that I can be certain that all usages listed by my IDE are actually all usages of that property. I love that I don’t need to be afraid of renames. And guess what – IntelliJ has no issues working with giant projects at all.</p>
+<h3>Kotlin Multiplatform Might Not Be So Bad After All</h3>
+<p>You know what? I actually started to <strong>like</strong> KMP. Compared to Flutter and React Native, it encourages developers to build the UI using the framework and language of their respective native platform. Even though there’s <a href="https://www.jetbrains.com/compose-multiplatform/" rel="nofollow">Multiplatform Compose</a>, the main objective of code sharing doesn’t feel like an attempt to eliminate Swift and iOS developers. Instead, KMP is tackling the challenge of developing business logic for both Android and iOS while recognizing the value of native development on both platforms. I love that KMP can bring iOS and Android developers closer together. It requires goodwill from both sides, but when done right, it creates code that either platform feels responsible for while strengthening knowledge of the other platform.</p>
+<p>Would I have loved Swift to be the shared language instead of KMP? Hell yes! But is it realistic for Swift, given its origins and smaller community, to take KMP’s place? Maybe, but not yet. There are projects like <a href="https://skip.tools/" rel="nofollow">skip.tool</a>, but I argue that it will take much longer for a real Swift-based solution to match what KMP is doing.</p>
+<h2>Why This Article?</h2>
+<p>When I first decided to venture into Kotlin, I did so with some despair. Seeing more and more project listings mentioning KMP, and even my current project increasingly adopting KMP, felt like I was being forced to check it out. It felt like KMP was threatening my world of Swift and my identity as an iOS developer. And after eight years of developing for Apple’s platforms, this also kind of threatened a part of my identity. When clients no longer see value in an iOS-only developer, what is my value then?</p>
+<p>Taking a closer look at Kotlin and KMP reminded me that iOS development is not who I am but rather what I’m currently using my expertise for. I’m a developer, an engineer, and as such, I can use my platform-independent skills to adapt and pivot. This journey also rekindled my enjoyment of learning. While I generally love learning new things, I suspect that KMP’s proximity to my daily work made me hesitant to give it a try.</p>
+<p>KMP is far from perfect, but it might be one solution for all mobile developers alike. Perhaps all it requires from us is to lay down our platform barriers and see ourselves for what we truly are — developers that happen to be working on the mobile platform.</p></article></div>
+</div>
+
+	<footer class="mt-8"><hr class="w-full">
+		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
+
+
+		<script type="module" data-sveltekit-hydrate="1fg99me">
+			import { start } from "../_app/immutable/start-c537f10c.js";
+
+			start({
+				assets: "",
+				env: {},
+				target: document.querySelector('[data-sveltekit-hydrate="1fg99me"]').parentNode,
+				version: "1739141021131",
+				hydrate: {
+					node_ids: [0, 2, 5],
+					data: [null,null,null],
+					form: null,
+					error: null
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>
