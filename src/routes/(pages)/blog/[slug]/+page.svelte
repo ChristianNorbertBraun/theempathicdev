@@ -18,7 +18,7 @@
 </script>
 
 <div class="md:flex md:items-center md:justify-center">
-	<div>
+	<div class="prose">
 		<h1 class="text-4xl font-bold pb-4">
 			{data.frontmatter.title}
 		</h1>

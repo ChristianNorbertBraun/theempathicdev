@@ -8,8 +8,7 @@
 	export let data;
 
 </script>
-
-<Card class="md:h-unset md:h-[40rem] bg-stone-800 {clazz}">
+<Card class="md:[height:unset] md:col-span-10 text-white min-h-[40rem] {clazz}">
 	<slot/>
 	{#each data.posts as post}
 		<a href="blog/{post.slug}">
