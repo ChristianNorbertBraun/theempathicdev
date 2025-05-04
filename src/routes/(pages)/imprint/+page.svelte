@@ -8,7 +8,7 @@
 		>
 		<br/>
 		<br/>
-		<p>Ludwigstraße 14</p>
+		<p>Sonnenstr. 43</p>
 		<p>90763 Fürth</p>
 		<p>Germany</p>
 	</div>

@@ -23,9 +23,9 @@
 			{data.frontmatter.title}
 		</h1>
 		<p class="text-sm text-slate-500">{dateString(data.frontmatter.date)}</p>
-		<article class="prose prose-a:underline prose-a:decoration-emerald-400 prose-a:decoration-4 prose-code:bg-slate-200 prose-code:rounded prose-code:font-normal prose-code:p-px prose-code:overflow-y-scroll prose-code:max-w-1 pre:overflow-y-scroll">
-			<svelte:component this={component} />
-		</article>
+    <article class="prose">
+      <svelte:component this={component} />
+    </article>
 	</div>
 </div>
 
