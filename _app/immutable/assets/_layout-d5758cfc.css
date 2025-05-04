@@ -416,9 +416,11 @@ video {
   margin-bottom: 1.2em;
 }
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-links);
+  color: #059669;
   text-decoration: underline;
   font-weight: 500;
+  text-decoration-color: #34d399;
+  text-decoration-thickness: 4px;
 }
 .prose :where(strong):not(:where([class~="not-prose"] *)) {
   color: var(--tw-prose-bold);
@@ -567,6 +569,7 @@ video {
   color: var(--tw-prose-code);
   font-weight: 600;
   font-size: 0.875em;
+  border-radius: 0.25rem;
 }
 .prose :where(code):not(:where([class~="not-prose"] *))::before {
   content: "`";
@@ -611,6 +614,7 @@ video {
   padding-right: 1.1428571em;
   padding-bottom: 0.8571429em;
   padding-left: 1.1428571em;
+  overflow-y: scroll;
 }
 .prose :where(pre code):not(:where([class~="not-prose"] *)) {
   background-color: transparent;
@@ -776,6 +780,15 @@ video {
 }
 .prose :where(.prose > :last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 0;
+}
+.prose :where(code:not(pre code)):not(:where([class~="not-prose"] *))::before {
+  content: none;
+}
+.prose :where(code:not(pre code)):not(:where([class~="not-prose"] *))::after {
+  content: none;
+}
+.prose :where(code:not(pre code)):not(:where([class~="not-prose"] *)) {
+  background-color: #e2e8f0;
 }
 .m-auto {
   margin: auto;
@@ -1079,31 +1092,6 @@ video {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.prose-a\:underline :is(:where(a):not(:where([class~="not-prose"] *))) {
-  text-decoration-line: underline;
-}
-.prose-a\:decoration-emerald-400 :is(:where(a):not(:where([class~="not-prose"] *))) {
-  text-decoration-color: #34d399;
-}
-.prose-a\:decoration-4 :is(:where(a):not(:where([class~="not-prose"] *))) {
-  text-decoration-thickness: 4px;
-}
-.prose-code\:overflow-y-scroll :is(:where(code):not(:where([class~="not-prose"] *))) {
-  overflow-y: scroll;
-}
-.prose-code\:rounded :is(:where(code):not(:where([class~="not-prose"] *))) {
-  border-radius: 0.25rem;
-}
-.prose-code\:bg-slate-200 :is(:where(code):not(:where([class~="not-prose"] *))) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
-}
-.prose-code\:p-px :is(:where(code):not(:where([class~="not-prose"] *))) {
-  padding: 1px;
-}
-.prose-code\:font-normal :is(:where(code):not(:where([class~="not-prose"] *))) {
-  font-weight: 400;
 }
 @media (min-width: 768px) {
   .md\:col-span-10 {
