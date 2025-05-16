@@ -1,4 +1,4 @@
-import{S as Re,i as qe,s as Le,k as l,q as s,a as f,l as r,m as p,r as o,h as e,c as h,n as g,b as i,H as n,C as re}from"./index-e94212ef.js";function Ne(We){let k,yt,Z,u,gt,q,It,bt,L,St,Kt,N,Et,At,J,Pt,_t,Y,Mt,Ot,$,A,jt,Q,I,Ce=`<code class="language-swift"><span class="token comment">// Swift</span>
+import{S as Re,i as qe,s as Le,k as l,q as s,a as f,l as r,m as p,r as o,h as e,c as h,n as g,b as i,H as n,C as re}from"./index-f7dcfbff.js";function Ne(We){let k,yt,Z,u,gt,q,It,bt,L,St,Kt,N,Et,At,J,Pt,_t,Y,Mt,Ot,$,A,jt,Q,I,Ce=`<code class="language-swift"><span class="token comment">// Swift</span>
 <span class="token keyword">func</span> <span class="token function-definition function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">String</span> <span class="token punctuation">&#123;</span>
   <span class="token string-literal"><span class="token string">"foo"</span></span>
 <span class="token punctuation">&#125;</span> <span class="token comment">// returns "foo"</span>

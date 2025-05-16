@@ -1,4 +1,4 @@
-import{S as me,i as he,s as ye,k as l,q as e,a as r,l as c,m as i,r as o,h as n,c as u,n as k,b as p,H as a,C as $a}from"./index-e94212ef.js";function we(Nt){let d,_n,ds,Tn,Bn,fs,Hn,xn,ms,Pn,Sn,hs,An,zn,Is,V,Dn,Ms,j,On,Ws,N,In,Ls,H,Gt=`<code class="language-swift"><span class="token keyword">protocol</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
+import{S as me,i as he,s as ye,k as l,q as e,a as r,l as c,m as i,r as o,h as n,c as u,n as k,b as p,H as a,C as $a}from"./index-f7dcfbff.js";function we(Nt){let d,_n,ds,Tn,Bn,fs,Hn,xn,ms,Pn,Sn,hs,An,zn,Is,V,Dn,Ms,j,On,Ws,N,In,Ls,H,Gt=`<code class="language-swift"><span class="token keyword">protocol</span> <span class="token class-name">BaseType</span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">func</span> <span class="token function-definition function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span>
 
