@@ -19,7 +19,7 @@
 
 <div class="md:flex md:items-center md:justify-center">
 	<div class="prose">
-		<h1 class="text-4xl font-bold pb-4">
+		<h1 class="text-3xl md:text-5xl break-words overflow-hidden">
 			{data.frontmatter.title}
 		</h1>
 		<p class="text-sm text-slate-500">{dateString(data.frontmatter.date)}</p>
