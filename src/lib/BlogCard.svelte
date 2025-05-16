@@ -1,14 +1,12 @@
 
 <script>
-	import Card from '$lib/Card.svelte';
-
 	let clazz = "";
 	export { clazz as class };
 	/** @type {import('./$types').PageData} */
 	export let data;
 
 </script>
-<Card class="md:[height:unset] md:col-span-10 text-white min-h-[40rem] {clazz}">
+<div class="md:[height:unset] md:col-span-10 text-white min-h-[40rem] {clazz}">
 	<slot/>
 	{#each data.posts as post}
 		<a href="blog/{post.slug}">
@@ -19,4 +17,4 @@
 		</a>
 	{/each}
 	<slot name="bottom"/>
-</Card>
+</div>
