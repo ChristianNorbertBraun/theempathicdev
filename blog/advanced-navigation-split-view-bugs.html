@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="font-mono bg-slate-100">
+
+<head>
+	<title>The empathic dev</title>
+	<meta name="description" content="An iOS Freelancer who puts communication and understanding of the client first. Coupled with solid developer skills we make your project successful.">
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png?v=3" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="content-security-policy" content="">
+		<link href="../_app/immutable/assets/_layout-a06b1a93.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/_page-9f49a256.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/start-f2bd4fa5.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index-e94212ef.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-79a8883c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/layout.svelte-236dccdf.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/_layout.svelte-d99ac665.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/_layout.ts-e992bf42.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-75f87e23.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-94eaf052.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-d2bd935c.js">
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">
+
+
+<div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl"><div class="pb-4 flex gap-1 items-center"><div class="h-3 w-3 bg-red-600 rounded-full"></div>
+		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
+		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
+	<div class="md:flex md:items-center md:justify-center"><div class="prose"><h1 class="text-4xl font-bold pb-4">NavigationSplitView's Hidden Trap – Don't Get Stuck Like I Did</h1>
+		<p class="text-sm text-slate-500">Friday, May 16, 2025</p>
+    <article class="prose"><p>I lately ran into some weird behavior with <code>NavigationSplitView</code>. The issue happens when using it with a <code>NavigationStack</code> in the detail view to add one more level of “drill down.”</p>
+<p>To have full control over column display, I used two properties in the <code>NavigationSplitView</code> init:</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token class-name">NavigationSplitView</span><span class="token punctuation">(</span>
+    columnVisibility<span class="token punctuation">:</span> <span class="token class-name">NavigationSplitViewVisibility</span><span class="token punctuation">,</span>
+    preferredCompactColumn<span class="token punctuation">:</span> <span class="token class-name">NavigationSplitViewColumn</span>
+<span class="token punctuation">)</span></code><!-- HTML_TAG_END --></pre>
+<p>Here’s what I wanted my users to do:</p>
+<ol><li>Select something on the sidebar</li>
+<li>Choose an item from the content view</li>
+<li>On the detail page, either drill down further or go back to sidebar by tapping a <code>reset</code> button</li></ol>
+<p>Here’s my code:</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">var</span> navigationPath <span class="token operator">=</span> <span class="token class-name">NavigationPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">var</span> preferredColumn<span class="token punctuation">:</span> <span class="token class-name">NavigationSplitViewColumn</span> <span class="token operator">=</span> <span class="token punctuation">.</span>sidebar
+    <span class="token attribute atrule">@State</span> <span class="token keyword">var</span> columnVisibility<span class="token punctuation">:</span> <span class="token class-name">NavigationSplitViewVisibility</span> <span class="token operator">=</span> <span class="token punctuation">.</span>all
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">NavigationSplitView</span><span class="token punctuation">(</span>
+            columnVisibility<span class="token punctuation">:</span> $columnVisibility<span class="token punctuation">,</span>
+            preferredCompactColumn<span class="token punctuation">:</span> $preferredColumn
+        <span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">List</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"First"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span>onTapGesture <span class="token punctuation">&#123;</span>
+                    preferredColumn <span class="token operator">=</span> <span class="token punctuation">.</span>content
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">.</span><span class="token function">navigationTitle</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Sidebar"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span> content<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">List</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"first content"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span>onTapGesture <span class="token punctuation">&#123;</span>
+                    preferredColumn <span class="token operator">=</span> <span class="token punctuation">.</span>detail
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">.</span><span class="token function">navigationTitle</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Content"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span> detail<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">NavigationStack</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> $navigationPath<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">VStack</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Detail"</span></span><span class="token punctuation">)</span>
+                    <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Push"</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        navigationPath<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"More Detail"</span></span><span class="token punctuation">)</span>
+                    <span class="token punctuation">&#125;</span>
+                    <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Reset"</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        preferredColumn <span class="token operator">=</span> <span class="token punctuation">.</span>sidebar
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">.</span><span class="token function">navigationTitle</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Detail"</span></span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">navigationDestination</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> value <span class="token keyword">in</span>
+                    <span class="token class-name">Text</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">navigationTitle</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"More Detail"</span></span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>Nothing special so far. Let’s look at the video of the behavior:</p>
+<p><img src="/blog/advanced-navigation-split-view-bugs/first.gif" alt="The happy path"></p>
+<p>And now let’s see what happens if the user decides to push on the <code>NavigationStack</code> and hits the <code>reset</code> button afterward.</p>
+<p><img src="/blog/advanced-navigation-split-view-bugs/second.gif" alt="The issue"></p>
+<p>Did you see it?</p>
+<p>For some reason, the programmatic back navigation stopped working! </p>
+<p>What happened? Once we pushed a view onto the <code>NavigationStack</code> and tried to change the <code>columnVisibility</code> or <code>preferredCompactColumn</code>, it just ignored us. </p>
+<p>The manual back arrow and gesture still work fine though.</p>
+<h2>Why is this happening?</h2>
+<p>I’m not 100% sure what’s happening under the hood. After debugging, I found that iOS updates the <code>preferredCompactColumn</code> by itself. This happens when you pop the last view off of the <code>NavigationStack</code>.</p>
+<p>The <code>NavigationSplitView</code> seems confused. It thinks this navigation is its own and sets <code>preferredCompactColumn</code> to <code>.content</code>. But it still shows the <code>.detail</code> column on screen! </p>
+<p>Even weirder: updating <code>preferredCompactColumn</code> to <code>.detail</code> again doesn’t fix it. Only manually navigating back and forth will reset things.</p>
+<h2>Why is this an issue?</h2>
+<p>You might use <code>NavigationSplitView</code> and never hit this problem. If so, lucky you! </p>
+<p>But this can be a nasty bug whenever you have multiple sections in your app and want to let users quickly jump between them. I’d also argue that with complex navigation, you’ll naturally want more control over which columns are displayed and will lean towards the <code>columnVisibility</code> and <code>preferredCompactColumn</code> API.</p>
+<h2>My workaround</h2>
+<p>There are actually two ways to sail around this issue. The first one is to stick to the selection-based navigation showcased in Apple’s documentation:</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> department<span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token operator">?</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> employee<span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token operator">?</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">NavigationSplitView</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">List</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"HR"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"IT"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"Sales"</span></span><span class="token punctuation">]</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation"></span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> selection<span class="token punctuation">:</span> $department<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> department <span class="token keyword">in</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>department<span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> content<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Text</span><span class="token punctuation">(</span>department<span class="token punctuation">)</span>
+            <span class="token class-name">List</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"Alice"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"Bob"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"Charlie"</span></span><span class="token punctuation">]</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation"></span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> selection<span class="token punctuation">:</span> $employee<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> employee <span class="token keyword">in</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>employee<span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> detail<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">VStack</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Reset selection"</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    employee <span class="token operator">=</span> <span class="token nil constant">nil</span>
+                    department <span class="token operator">=</span> <span class="token nil constant">nil</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>department<span class="token punctuation">)</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>employee <span class="token operator">??</span> <span class="token string-literal"><span class="token string">"Nothing Selected"</span></span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>This works fine but lacks flexibility. Maybe you don’t have lists in your sidebar or content columns. Or maybe your existing navigation patterns don’t play well with this selection-based approach.</p>
+<p>This is where my dirty workaround comes in. I tried everything to fix this elegantly. But only one thing worked: forcing SwiftUI to re-render the whole <code>NavigationSplitView</code>. </p>
+<p>I attached an <code>.id(:)</code> to the view that changes before column updates whenever the <code>NavigationPath</code> was modified.</p>
+<pre class="language-swift"><!-- HTML_TAG_START --><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+
+    <span class="token attribute atrule">@State</span> <span class="token keyword">var</span> identifier <span class="token operator">=</span> <span class="token function">UUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">NavigationSplitView</span><span class="token punctuation">(</span>
+            columnVisibility<span class="token punctuation">:</span> $columnVisibility<span class="token punctuation">,</span>
+            preferredCompactColumn<span class="token punctuation">:</span> $preferredColumn
+        <span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          <span class="token operator">...</span>
+        <span class="token punctuation">&#125;</span> content<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+          <span class="token operator">...</span>
+        <span class="token punctuation">&#125;</span> detail<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">NavigationStack</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> $navigationPath<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">VStack</span> <span class="token punctuation">&#123;</span>
+                    <span class="token operator">...</span>
+                    <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Push"</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                      <span class="token operator">...</span>
+                    <span class="token punctuation">&#125;</span>
+                    <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Reset"</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        identifier <span class="token operator">=</span> <span class="token function">UUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                        preferredColumn <span class="token operator">=</span> <span class="token punctuation">.</span>sidebar
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token operator">...</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">.</span><span class="token function">id</span><span class="token punctuation">(</span>identifier<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre>
+<p>While this works, it might cause some UI flickering. So I’m still not completely happy with it.</p>
+<p>If there’s one takeaway from this post, it’s this: stick to selection-based navigation for <code>NavigationSplitView</code> when you can make it work with your app architecture. Don’t mess with <code>preferredCompactColumn</code> if you can avoid it. At least until apple fixes this bug. Your future self will thank you!</p></article></div>
+</div>
+
+	<footer class="mt-8"><hr class="w-full">
+		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
+
+
+		<script type="module" data-sveltekit-hydrate="11lx85d">
+			import { start } from "../_app/immutable/start-f2bd4fa5.js";
+
+			start({
+				assets: "",
+				env: {},
+				target: document.querySelector('[data-sveltekit-hydrate="11lx85d"]').parentNode,
+				version: "1747404142626",
+				hydrate: {
+					node_ids: [0, 2, 5],
+					data: [null,null,null],
+					form: null,
+					error: null
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>
