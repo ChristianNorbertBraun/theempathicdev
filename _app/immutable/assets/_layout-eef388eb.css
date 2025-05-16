@@ -890,6 +890,12 @@ video {
 .justify-self-center {
   justify-self: center;
 }
+.overflow-hidden {
+  overflow: hidden;
+}
+.break-words {
+  overflow-wrap: break-word;
+}
 .rounded-full {
   border-radius: 9999px;
 }
@@ -1017,6 +1023,10 @@ video {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
 .font-semibold {
   font-weight: 600;
 }
@@ -1130,6 +1140,10 @@ video {
   }
   .md\:bg-\[bottom_-3rem_right_1\.5rem\] {
     background-position: bottom -3rem right 1.5rem;
+  }
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
   }
   .md\:\[height\:unset\] {
     height: unset;
