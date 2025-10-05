@@ -4,4 +4,4 @@
 	export let data;
 </script>
 
-<BlogList posts={data.posts} />/div>
+<BlogList posts={data.posts} />
