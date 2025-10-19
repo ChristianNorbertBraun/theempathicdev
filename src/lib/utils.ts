@@ -1,4 +1,5 @@
 import { slugFromPath } from "./slugFromPath";
+import { dev } from '$app/environment';
 
 export const convertDate = (published: string) => {
     const months: {[id: number]: string} = {
@@ -32,7 +33,7 @@ export const fetchBlogPosts = async (maxNumber?: number): Promise<{ posts: App.B
   });
 
   const posts = await Promise.all(postPromises);
-  const publishedPosts = posts.filter(post => post.published).slice(0, maxNumber ?? posts.length);
+  const publishedPosts = posts.filter(post => dev || post.published).slice(0, maxNumber ?? posts.length);
 
   publishedPosts.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
 

@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { slugFromPath } from '$lib/slugFromPath';
 import { error } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 export const prerender = true
 
@@ -17,7 +18,7 @@ export const load: PageLoad = async ({ params }) => {
 
 	const post = await match?.resolver?.();
 
-	if (!post || !post.metadata.published) {
+	if (!post || (!dev && !post.metadata?.published)) {
 		throw error(404); // Couldn't resolve the post
 	}
 
