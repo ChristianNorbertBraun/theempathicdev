@@ -7,6 +7,11 @@
 <language>en-us</language>
 <atom:link href="https://theempathicdev.de/rss.xml" rel="self" type="application/rss+xml" />
 <item>
+<title>Agentic Engineering: 11 Tips for iOS Development with AI</title>
+<link>https://theempathicdev.de/blog/my-vibe-coding-setup</link>
+<description>Practical tips for using AI agents like Claude Code to build production-quality iOS applications. Learn how to manage context, structure your workflow, and scale your development with AI.</description>
+<pubDate>Sat, 18 Oct 2025 00:00:00 GMT</pubDate>
+</item><item>
 <title>NavigationSplitView's Hidden Trap – Don't Get Stuck Like I Did</title>
 <link>https://theempathicdev.de/blog/advanced-navigation-split-view-bugs</link>
 <description>NavigationSplitView seems easy to use. And Apple's example projects are. But step just a little outside the basic path, and you can easily run into problems.</description>

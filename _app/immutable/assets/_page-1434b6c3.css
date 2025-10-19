@@ -141,3 +141,9 @@ pre[class*='language-'] {
 	--am-prism-copy-color: #a9b1d6;
 	--am-prism-copy-bg: #565f8933;
 }
+
+article.svelte-vv3p87 h2 + p::first-letter,article.svelte-vv3p87 h2 + img + p::first-letter{float:left;font-size:3.5em;line-height:0.9;margin-right:0.1em;margin-top:0.1em;color:#374151;font-family:Georgia, serif}
+
+article.svelte-vv3p87 h2 + img{display:block !important;margin:0 auto 1rem auto !important;float:none !important;border-radius:8px !important}
+
+@media(min-width: 768px){article.svelte-vv3p87 h2 + img{float:left !important;margin-right:15px !important;margin-bottom:10px !important;margin-left:0 !important}}

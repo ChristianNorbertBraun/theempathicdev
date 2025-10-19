@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="font-mono bg-slate-100">
+
+<head>
+	<title>The empathic dev</title>
+	<meta name="description" content="An iOS Freelancer who puts communication and understanding of the client first. Coupled with solid developer skills we make your project successful.">
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png?v=3" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="content-security-policy" content="">
+		<link href="../_app/immutable/assets/_layout-dfb5f442.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/_page-974d6573.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/start-b898753a.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index-f7dcfbff.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-a998f272.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="../_app/immutable/components/layout.svelte-fb707d39.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/_layout.svelte-30d31241.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/_layout.ts-e992bf42.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
+		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-408bbdaf.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-486fb884.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-2b3a6c39.js">
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">
+
+
+<div class="max-w-6xl m-auto w-screen p-4 bg-white md:my-4 md:rounded-xl"><div class="pb-4 flex gap-1 items-center"><div class="h-3 w-3 bg-red-600 rounded-full"></div>
+		<div class="h-3 w-3 bg-yellow-400 rounded-full"></div>
+		<div class="h-3 w-3 bg-green-500 rounded-full"></div>
+		<a class="ml-auto hover:bg-black hover:text-white" href="/">The empathic dev</a></div>
+	<div class="md:flex md:items-center md:justify-center"><div class="prose"><h1 class="text-3xl md:text-5xl break-words overflow-hidden" style="letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 1.5rem;">Agentic Engineering: 11 Tips for iOS Development with AI</h1>
+		<p class="text-sm text-slate-500">Saturday, October 18, 2025</p>
+    <article class="prose svelte-vv3p87"><p>My tips on vibe coding as an iOS engineer, mostly based on work with Claude Code and Sonnet. Even though I’ve heard otherwise, I think you can get a lot done with Sonnet and don’t need the stronger but way hungrier Opus model.
+When I reference “the agent” in this article, I’m talking about Claude. But the tips apply to any agent you use.</p>
+<p>While I use the term “vibe coding” here, I actually consider my approach more like agentic engineering. I’m not just casually coding with AI assistance - I’m using AI agents to build software projects that scale. The tips below are targeted at this kind of workflow: maintaining production-quality codebases, managing complexity, and building real applications with AI as a core part of your engineering process.</p>
+<h2>1. Keep your context in mind</h2>
+<img src="/blog/my-vibe-coding-setup/manageContext.webp" alt="Manage Context" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Even with the gigantic context windows that agents are promoted with, managing context is the most important task when working with coding agents. So important that most of the following tips are just here to help you manage your context.
+And don’t be fooled - even when it seems like you have plenty of context left for your current session, you might already be a victim of a polluted context. In my experience agents perform best if the context is very small and only contains what is required for the task at hand.
+In short, don’t hesitate to use <code>/clear</code> whenever you are done with a logical chunk in your session. Ask your agent to save important session details to a Markdown file. When you start a fresh session, the new agent can load this file to pick up where you left off.</p>
+<h2>2. Create a plan</h2>
+<img src="/blog/my-vibe-coding-setup/makeAPlan.webp" alt="Make a Plan" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>I have this in my general prompt: “Don’t implement immediately. Always show me at least two implementation options before you start.”
+For bigger changes, I have the agent create a detailed plan and write it to a Markdown file. Then I go through this plan, ask follow-up questions or add comments directly into the Markdown. Then I let the agent evaluate the plan again. Instead of commenting on the Markdown, you can also put the comments directly into your codebase. This way you might get around the spec Markdown file.
+Same as in the first tip, this Markdown enables a new agent to start with a context that only contains signal and no noise.</p>
+<h2>3. Don’t Ask, Command</h2>
+<img src="/blog/my-vibe-coding-setup/command.webp" alt="Command" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Even with a solid plan in place, agents are trained to be helpful and assume you know what you’re doing. They’ll happily proceed with incomplete information or suboptimal approaches because they trust your decisions. This means if you ask “Do you have any questions?” or “Can you think of any edge cases?”, they’ll assume you’ve already considered everything important and might not challenge your plan.</p>
+<p>To get critical analysis, don’t ask open-ended questions - issue direct commands with specific numbers. Instead of “Do you have questions?”, command: <strong>“Ask me 10 clarifying questions about this implementation plan.”</strong> Instead of “Any edge cases?”, command: <strong>“Identify 7 edge cases I haven’t considered in this authentication flow.”</strong></p>
+<p>When you demand specific outputs - “list 5 things”, “ask 10 questions”, “find 3 problems” - the agent has no choice but to engage deeply with your code. Be demanding. Your agent won’t be offended, and you’ll get significantly better results.</p>
+<h2>4. Generate Your Xcode Projects</h2>
+<img src="/blog/my-vibe-coding-setup/generate-project.webp" alt="Generate Project" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>When you want to go all in on agentic coding you should try to generate your Xcode projects. Dealing with Xcode projects can be hard. Agents have trouble editing settings or adding files as Xcode does not automatically include all files in your source directories. This means that whenever your agent adds new files, you’ll run into compile issues in Xcode because it can’t find these newly added files. You avoid this by using tools like <a href="https://github.com/yonaskolb/XcodeGen" rel="nofollow">XcodeGen</a> or <a href="https://tuist.dev/" rel="nofollow">Tuist</a>.
+This way your agent can add files, configure build settings and just regenerate your project. The best part is that your agent will gladly generate the needed specs for XcodeGen or Tuist for you. From then on, you are only one instruction away from having your agent regenerate the project correctly when needed.</p>
+<h2>5. Embed Documentation in Your Project</h2>
+<img src="/blog/my-vibe-coding-setup/documentation.webp" alt="Documentation" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Your agents will not know all the best practices for SwiftUI or Apple specific frameworks. If you want your agent to be capable of following the Apple documentation you should consider placing the stuff you need inside your project. For example in a docs folder.
+To generate Markdown from documentation websites, especially Apple’s documentation websites, you can use the <a href="https://llm.codes/" rel="nofollow">llm.codes</a> tool. Another smart approach on handling Apple’s documentation is <a href="https://sosumi.ai/" rel="nofollow">sosumi.ai</a>. This tool enables your agent to fetch the documentation as Markdown by simply replacing <code>developer.apple.com</code> with <code>sosumi.ai</code> for a specific documentation site. You can find some helpful documentations in <a href="https://github.com/steipete/agent-rules" rel="nofollow">this repository</a>. Both tools are created by Peter Steinberger.
+But as it is the most important task to keep the context clean, don’t overdo it! You should only put the docs inside your project and advise your agent to use them when you really need them. Otherwise you will just eat up your tokens.
+I just recently stumbled upon this <a href="https://x.com/merowing_/status/1978827569798468037" rel="nofollow">tweet from Krzysztof Zabłocki</a> which might help to teach your agent when to pull which documentation.</p>
+<h2>6. Debug with Logging</h2>
+<img src="/blog/my-vibe-coding-setup/logging.webp" alt="Logging" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Beyond documentation, debugging presents unique challenges. Feels a little paradoxical that when working with the possibly most sophisticated developer tooling there is, the debugging support is kind of archaic. Agents can’t work with breakpoints and can’t read your variables during runtime. But they shine when analyzing text. So it comes naturally to them to analyze stack traces or logs to find errors and fix bugs. So put your debugger aside and go back to the basics. Logs are the bread and butter when debugging with agents. Just ask your agent to add logs to fix a particular bug. Run your app and copy paste the logs to the agent.</p>
+<h2>7. Leverage Subtasks for Large Searches</h2>
+<img src="/blog/my-vibe-coding-setup/subtasks.webp" alt="Subtasks" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Subtasks are undervalued when it comes to context management in my opinion.
+Often you’ll need to find all occurrences of a certain API call or check if some functionality is already implemented. In these cases where your task can be solved by visiting every file independently, you can ask your agent to launch subtasks.
+This basically means that it will search through your files with a fresh context for each one and only returns the results that matter to the main task. This keeps your context clean while analyzing a lot of files.
+An example would be:</p>
+<pre class="language-undefined"><!-- HTML_TAG_START --><code class="language-undefined">&quot;Please use subtasks to check if we use the new date conversion function
+everywhere where it would make sense.&quot;</code><!-- HTML_TAG_END --></pre>
+<h2>8. Keep PRs Small and Focused</h2>
+<img src="/blog/my-vibe-coding-setup/pullrequests.webp" alt="Pull Requests" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>When agents make changes so easily, it lures you into creating giant Pull Requests. You have to resist this bait.
+In the end, you must be able to review your PRs. At least the most important parts.
+So whenever you think “Hey while I’m already here, I could just put this into its own module”, give yourself a slap on the wrist. Good development practices still apply in the coding agent world. PRs should only create the one feature you started them for.
+PRs also come in handy for your refactoring flow. Install the GitHub or GitLab CLI and do your code review inside the PR by adding comments. Then just ask your agent to “Fix the review comments from the PR” and watch it get to work. Beyond reviewing, using the CLI you can also ask your agent to create PRs for you. Those PRs will have the best documentation you have ever seen, I promise.</p>
+<p>As an alternative to using PRs for the review process, I like to add comments inside my code starting with <code>// claude</code>. Then I just ask to scan the project for this prefix to do the changes.</p>
+<h2>9. Prime Agents for Better Tests</h2>
+<img src="/blog/my-vibe-coding-setup/unittests.webp" alt="Unit Tests" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>I don’t understand where people get the idea that AI is writing good tests. This does not happen to me, at least not out of the box. It is so easy to just ask your agent to create tests for this feature. For me, prompts like these resulted in a lot of constructor or property tests, not providing any meaningful safety against regressions.
+I always prime my test agent this way:</p>
+<pre class="language-undefined"><!-- HTML_TAG_START --><code class="language-undefined">Do not write tests that simply test constructors or variable setting.
+Evaluate if a written test is truly validating business logic.
+Good tests should fail, if business logic changes.</code><!-- HTML_TAG_END --></pre>
+<p>In my experience, this improved the test quality drastically.</p>
+<h2>10. Split your features into submodules</h2>
+<img src="/blog/my-vibe-coding-setup/submodules.webp" alt="Submodules" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>When working with agents on large projects your code quality matters even more than when working with humans. A junior dev will learn the ins and outs of your project eventually but AI is like a junior dev who always has its first day. This means it is crucial that the agent can understand the architecture, the requirements and where to look to find answers fast.
+Agents profit tremendously from well sliced modules that can be kept in context while making changes to them.
+My approach is to create SPM modules for my app features and add a test app to them with XcodeGen to run and test them separately from the main app. Making your code base easier to manage and discover for your agent will achieve the same for you.</p>
+<h2>11. Be Bold, Stay Smart</h2>
+<img src="/blog/my-vibe-coding-setup/confidence.webp" alt="Confidence" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
+<p>Working confidently with agents means finding the right balance between being bold and being smart. You have to trust your agent to benefit from the productivity gains while still taking responsibility for the created code. Here are just a couple more small tips where I asked myself whether to trust the agent to deal with the task.</p>
+<p><strong>Run multiple agents in parallel.</strong> At first I was hesitant at working with multiple agents at once on the same codebase and the same branch. But as long as you don’t have two agents which are actually doing the same task it never became a problem for me. So for example implementing a spec you have written while also replacing all hardcoded strings with localisation keys is no issue at all.</p>
+<p><strong>But confidence doesn’t mean removing all guardrails.</strong> So many people told me that if you really want to be productive with agents you need to let them run in the <code>danger mode</code>. Which basically just means they don’t need to ask for any permissions and can just move freely on your whole computer. And of course when restricting your agent to work in a specific folder you might be prompted to approve certain requests. But in my experience it only took a couple of requests until everything is in the allow list for the project folder. I don’t see the benefit in allowing my agent to access my whole PC just to avoid a couple of prompts at the start of a new project. I don’t need to mention the potential risk of running your agent in <code>danger mode</code>.</p>
+<p><strong>Finally, review strategically, not exhaustively.</strong> If you scrutinize every single line of code the agent generates, you’ll lose most of the productivity benefits. Instead, focus your review effort where it matters: carefully examine architecture decisions, core logic, and security-sensitive code. For routine changes like UI adjustments or formatting, a quick glance is often enough. Trust the agent for the mundane work, but bring your expertise to bear on the parts that truly matter.</p>
+<h2>Finally…</h2>
+<p>These are exciting times. Just when I am about to finish this article Anthropic introduced <a href="https://www.anthropic.com/news/skills" rel="nofollow">Claude Code Skills</a>. Almost daily there are new announcements. Don’t get too attached with a single agent provider and don’t stop questioning your workflow. I’m confident that the way we use agents will continue to change.</p></article></div>
+</div>
+
+	<footer class="mt-8"><hr class="w-full">
+		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
+
+
+		<script type="module" data-sveltekit-hydrate="iblhdp">
+			import { start } from "../_app/immutable/start-b898753a.js";
+
+			start({
+				assets: "",
+				env: {},
+				target: document.querySelector('[data-sveltekit-hydrate="iblhdp"]').parentNode,
+				version: "1760893865540",
+				hydrate: {
+					node_ids: [0, 2, 5],
+					data: [null,null,null],
+					form: null,
+					error: null
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>
