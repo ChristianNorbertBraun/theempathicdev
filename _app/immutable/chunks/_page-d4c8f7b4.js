@@ -1,1 +1,0 @@
-import{f as o}from"./utils-24a1b0a6.js";const e=!0;async function t(){return console.log("Loading blog posts"),o(4)}const n=Object.freeze(Object.defineProperty({__proto__:null,load:t,prerender:e},Symbol.toStringTag,{value:"Module"}));export{n as _,t as l,e as p};
