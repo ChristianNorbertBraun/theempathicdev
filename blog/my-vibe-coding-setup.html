@@ -10,7 +10,7 @@
 	<meta http-equiv="content-security-policy" content="">
 		<link href="../_app/immutable/assets/_layout-dfb5f442.css" rel="stylesheet">
 		<link href="../_app/immutable/assets/_page-974d6573.css" rel="stylesheet">
-		<link rel="modulepreload" href="../_app/immutable/start-802ac2c9.js">
+		<link rel="modulepreload" href="../_app/immutable/start-f658d172.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/index-f7dcfbff.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/singletons-a998f272.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper-41c905a7.js">
@@ -20,9 +20,9 @@
 		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/_layout.ts-e992bf42.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/_layout-da46b06b.js">
 		<link rel="modulepreload" href="../_app/immutable/components/pages/(pages)/blog/_slug_/_page.svelte-408bbdaf.js">
-		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-486fb884.js">
+		<link rel="modulepreload" href="../_app/immutable/modules/pages/(pages)/blog/_slug_/_page.ts-82f91fa5.js">
 		<link rel="modulepreload" href="../_app/immutable/chunks/slugFromPath-088efb14.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/_page-2b3a6c39.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_page-4ad47bab.js">
 </head>
 
 <body data-sveltekit-preload-data="hover">
@@ -60,7 +60,7 @@ This way your agent can add files, configure build settings and just regenerate 
 <h2>5. Embed Documentation in Your Project</h2>
 <img src="/blog/my-vibe-coding-setup/documentation.webp" alt="Documentation" width="180" style="float: left; margin-right: 15px; margin-bottom: 10px;">
 <p>Your agents will not know all the best practices for SwiftUI or Apple specific frameworks. If you want your agent to be capable of following the Apple documentation you should consider placing the stuff you need inside your project. For example in a docs folder.
-To generate Markdown from documentation websites, especially Apple’s documentation websites, you can use the <a href="https://llm.codes/" rel="nofollow">llm.codes</a> tool. Another smart approach on handling Apple’s documentation is <a href="https://sosumi.ai/" rel="nofollow">sosumi.ai</a>. This tool enables your agent to fetch the documentation as Markdown by simply replacing <code>developer.apple.com</code> with <code>sosumi.ai</code> for a specific documentation site. You can find some helpful documentations in <a href="https://github.com/steipete/agent-rules" rel="nofollow">this repository</a>. Both tools are created by Peter Steinberger.
+To generate Markdown from documentation websites, especially Apple’s documentation websites, you can use the <a href="https://llm.codes/" rel="nofollow">llm.codes</a> tool (by Peter Steinberger). Another smart approach on handling Apple’s documentation is <a href="https://sosumi.ai/" rel="nofollow">sosumi.ai</a>(by NSHipster). This tool enables your agent to fetch the documentation as Markdown by simply replacing <code>developer.apple.com</code> with <code>sosumi.ai</code> for a specific documentation site. You can find some helpful documentations in <a href="https://github.com/steipete/agent-rules" rel="nofollow">this repository</a>(by Peter Steinberger).
 But as it is the most important task to keep the context clean, don’t overdo it! You should only put the docs inside your project and advise your agent to use them when you really need them. Otherwise you will just eat up your tokens.
 I just recently stumbled upon this <a href="https://x.com/merowing_/status/1978827569798468037" rel="nofollow">tweet from Krzysztof Zabłocki</a> which might help to teach your agent when to pull which documentation.</p>
 <h2>6. Debug with Logging</h2>
@@ -108,14 +108,14 @@ My approach is to create SPM modules for my app features and add a test app to t
 		<div class="flex mt-4"><a class="hover:bg-black hover:text-white" href="/imprint">Imprint</a></div></footer></div>
 
 
-		<script type="module" data-sveltekit-hydrate="iblhdp">
-			import { start } from "../_app/immutable/start-802ac2c9.js";
+		<script type="module" data-sveltekit-hydrate="1un8pis">
+			import { start } from "../_app/immutable/start-f658d172.js";
 
 			start({
 				assets: "",
 				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="iblhdp"]').parentNode,
-				version: "1760894081318",
+				target: document.querySelector('[data-sveltekit-hydrate="1un8pis"]').parentNode,
+				version: "1762197888794",
 				hydrate: {
 					node_ids: [0, 2, 5],
 					data: [null,null,null],
