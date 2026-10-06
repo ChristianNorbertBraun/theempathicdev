@@ -6,7 +6,7 @@
 	type C = $$Generic<typeof SvelteComponentTyped<any, any, any>>;
 	$: component = data.component as unknown as C;
 
-	function dateString(date) {
+	function dateString(date: string | number | Date) {
 		let formattedDate = new Date(date).toLocaleDateString('en-US', {
 			weekday: 'long', // "Monday"
 			year: 'numeric', // "2023"

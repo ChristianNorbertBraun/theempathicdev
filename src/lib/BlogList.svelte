@@ -5,6 +5,7 @@
 	export let compactView = false;
 	export let darkMode = false; // New prop to control text color scheme
 	
+	/** @param {string | number | Date} date */
 	function dateString(date) {
 		let formattedDate = new Date(date).toLocaleDateString('en-US', {
 			weekday: 'long',
