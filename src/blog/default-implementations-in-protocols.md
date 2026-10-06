@@ -222,6 +222,7 @@ customized.doSomething() // Outputs "CustomizedClass"
 Now, any type conforming to `BaseType` is forced to provide a `Behavior`. You might argue that in the original implementation, conforming types did not need to do anything, and this solution might seem worse. However, I want to point out that no matter how many functions are provided by the behavior, the `BaseClass` will always only have to provide a single line to define the behavior and can leverage the full power of the default implementation. Additionally, subclasses of `BaseClass` don’t need to provide a custom behavior, and the behavior can still be customized further down the inheritance tree.
 
 ## The suggested approach applied
+
 I see the theory might be a bit hard to grasp, but let's have a final look on the reworked realistic example from ealier.
 
 ```swift
@@ -268,4 +269,5 @@ Service(errorHandler: CustomizedApplicationEngine())
 ```
 
 ## Conclusion
+
 While protocol extensions provide a powerful tool for reducing code duplication and adding functionality, they come with their own set of challenges, particularly around method dispatch. The solutions discussed here, such as removing default implementations and leveraging composition, offer ways to ensure dynamic behavior and maintainable code. However, these are just ideas that need to prove themselves in real-world applications. This behavior of protocol extensions is not new, but understanding and addressing it can save you from unexpected bugs and design pitfalls.

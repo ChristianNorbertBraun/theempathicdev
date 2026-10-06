@@ -1,41 +1,43 @@
-import { slugFromPath } from "./slugFromPath";
+import { slugFromPath } from './slugFromPath';
 import { dev } from '$app/environment';
 
 export const convertDate = (published: string) => {
-    const months: {[id: number]: string} = {
-        1: 'Jan',
-        2: 'Feb',
-        3: 'Mar',
-        4: 'Apr',
-        5: 'May',
-        6: 'Jun',
-        7: 'Jul',
-        8: 'Aug',
-        9: 'Sep',
-        10: 'Oct',
-        11: 'Nov',
-        12: 'Dec'
-    };
-    const date = published.substring(0, 10);
-    const [year, month, day] = date.split('-');
-    return `${day}-${months[parseInt(month)]}-${year}`;
+	const months: { [id: number]: string } = {
+		1: 'Jan',
+		2: 'Feb',
+		3: 'Mar',
+		4: 'Apr',
+		5: 'May',
+		6: 'Jun',
+		7: 'Jul',
+		8: 'Aug',
+		9: 'Sep',
+		10: 'Oct',
+		11: 'Nov',
+		12: 'Dec'
+	};
+	const date = published.substring(0, 10);
+	const [year, month, day] = date.split('-');
+	return `${day}-${months[parseInt(month)]}-${year}`;
 };
 
 export const fetchBlogPosts = async (maxNumber?: number): Promise<{ posts: App.BlogPost[] }> => {
-  const modules = import.meta.glob<App.MdsvexFile>('/src/blog/*.{md,svx,svelte.md}');
+	const modules = import.meta.glob<App.MdsvexFile>('/src/blog/*.{md,svx,svelte.md}');
 
-  const postPromises = Object.entries(modules).map(async ([path, resolver]) => {
-    const post = await resolver();
-    return {
-      slug: slugFromPath(path),
-      ...post.metadata
-    } as App.BlogPost;
-  });
+	const postPromises = Object.entries(modules).map(async ([path, resolver]) => {
+		const post = await resolver();
+		return {
+			slug: slugFromPath(path),
+			...post.metadata
+		} as App.BlogPost;
+	});
 
-  const posts = await Promise.all(postPromises);
-  const publishedPosts = posts.filter(post => dev || post.published).slice(0, maxNumber ?? posts.length);
+	const posts = await Promise.all(postPromises);
+	const publishedPosts = posts
+		.filter((post) => dev || post.published)
+		.slice(0, maxNumber ?? posts.length);
 
-  publishedPosts.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
+	publishedPosts.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
 
-  return { posts: publishedPosts };
+	return { posts: publishedPosts };
 };
