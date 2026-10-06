@@ -39,10 +39,21 @@
 
 <button
 	type="button"
-	class="ml-2 px-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
-	aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+	role="switch"
+	aria-checked={dark}
+	aria-label="Dark mode"
 	title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+	class="relative ml-2 inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-slate-400 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 dark:border-slate-500 dark:focus-visible:ring-offset-slate-800 {dark
+		? 'bg-emerald-500'
+		: 'bg-slate-300'}"
 	on:click={toggle}
 >
-	{dark ? '☀' : '☾'}
+	<span
+		aria-hidden="true"
+		class="pointer-events-none inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs text-slate-700 shadow transition-transform duration-200 ease-in-out {dark
+			? 'translate-x-5'
+			: 'translate-x-0.5'}"
+	>
+		{dark ? '☾' : '☀'}
+	</span>
 </button>
