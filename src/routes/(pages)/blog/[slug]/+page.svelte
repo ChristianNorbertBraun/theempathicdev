@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { SvelteComponentTyped } from 'svelte/internal';
-	import { page } from '$app/stores';
+	import type { SvelteComponent } from 'svelte';
 	export let data: PageData;
-	type C = $$Generic<typeof SvelteComponentTyped<any, any, any>>;
-	$: component = data.component as unknown as C;
+	$: component = data.component as unknown as typeof SvelteComponent;
 
 	function dateString(date: string | number | Date) {
 		let formattedDate = new Date(date).toLocaleDateString('en-US', {
@@ -19,13 +17,16 @@
 
 <div class="md:flex md:items-center md:justify-center">
 	<div class="prose">
-		<h1 class="text-3xl md:text-5xl break-words overflow-hidden" style="letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 1.5rem;">
+		<h1
+			class="text-3xl md:text-5xl break-words overflow-hidden"
+			style="letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 1.5rem;"
+		>
 			{data.frontmatter.title}
 		</h1>
 		<p class="text-sm text-slate-500">{dateString(data.frontmatter.date)}</p>
-    <article class="prose">
-      <svelte:component this={component} />
-    </article>
+		<article class="prose">
+			<svelte:component this={component} />
+		</article>
 	</div>
 </div>
 

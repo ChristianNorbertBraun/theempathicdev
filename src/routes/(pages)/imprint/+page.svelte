@@ -6,8 +6,8 @@
 		<a class="hover:bg-black hover:text-white" href="mailto:christian.braun@theempathicdev.de"
 			>christian.braun[at]theempathicdev.de</a
 		>
-		<br/>
-		<br/>
+		<br />
+		<br />
 		<p>Sonnenstr. 43</p>
 		<p>90763 Fürth</p>
 		<p>Germany</p>

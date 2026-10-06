@@ -19,6 +19,7 @@ NavigationSplitView(
 ```
 
 Here's what I wanted my users to do:
+
 1. Select something on the sidebar
 2. Choose an item from the content view
 3. On the detail page, either drill down further or go back to sidebar by tapping a `reset` button
@@ -78,12 +79,11 @@ And now let's see what happens if the user decides to push on the `NavigationSta
 
 ![The issue](/blog/advanced-navigation-split-view-bugs/second.gif)
 
-
 Did you see it?
 
-For some reason, the programmatic back navigation stopped working! 
+For some reason, the programmatic back navigation stopped working!
 
-What happened? Once we pushed a view onto the `NavigationStack` and tried to change the `columnVisibility` or `preferredCompactColumn`, it just ignored us. 
+What happened? Once we pushed a view onto the `NavigationStack` and tried to change the `columnVisibility` or `preferredCompactColumn`, it just ignored us.
 
 The manual back arrow and gesture still work fine though.
 
@@ -91,13 +91,13 @@ The manual back arrow and gesture still work fine though.
 
 I'm not 100% sure what's happening under the hood. After debugging, I found that iOS updates the `preferredCompactColumn` by itself. This happens when you pop the last view off of the `NavigationStack`.
 
-The `NavigationSplitView` seems confused. It thinks this navigation is its own and sets `preferredCompactColumn` to `.content`. But it still shows the `.detail` column on screen! 
+The `NavigationSplitView` seems confused. It thinks this navigation is its own and sets `preferredCompactColumn` to `.content`. But it still shows the `.detail` column on screen!
 
 Even weirder: updating `preferredCompactColumn` to `.detail` again doesn't fix it. Only manually navigating back and forth will reset things.
 
 ## Why is this an issue?
 
-You might use `NavigationSplitView` and never hit this problem. If so, lucky you! 
+You might use `NavigationSplitView` and never hit this problem. If so, lucky you!
 
 But this can be a nasty bug whenever you have multiple sections in your app and want to let users quickly jump between them. I'd also argue that with complex navigation, you'll naturally want more control over which columns are displayed and will lean towards the `columnVisibility` and `preferredCompactColumn` API.
 
@@ -136,7 +136,7 @@ struct ContentView: View {
 
 This works fine but lacks flexibility. Maybe you don't have lists in your sidebar or content columns. Or maybe your existing navigation patterns don't play well with this selection-based approach.
 
-This is where my dirty workaround comes in. I tried everything to fix this elegantly. But only one thing worked: forcing SwiftUI to re-render the whole `NavigationSplitView`. 
+This is where my dirty workaround comes in. I tried everything to fix this elegantly. But only one thing worked: forcing SwiftUI to re-render the whole `NavigationSplitView`.
 
 I attached an `.id(:)` to the view that changes before column updates whenever the `NavigationPath` was modified.
 

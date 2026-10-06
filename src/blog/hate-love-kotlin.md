@@ -26,6 +26,7 @@ fun foo(): String {
   "foo"
 } // does not compile because it needs a return
 ```
+
 **Exemple numéro deux**
 
 ```swift
@@ -88,4 +89,3 @@ When I first decided to venture into Kotlin, I did so with some despair. Seeing 
 Taking a closer look at Kotlin and KMP reminded me that iOS development is not who I am but rather what I’m currently using my expertise for. I’m a developer, an engineer, and as such, I can use my platform-independent skills to adapt and pivot. This journey also rekindled my enjoyment of learning. While I generally love learning new things, I suspect that KMP’s proximity to my daily work made me hesitant to give it a try.
 
 KMP is far from perfect, but it might be one solution for all mobile developers alike. Perhaps all it requires from us is to lay down our platform barriers and see ourselves for what we truly are — developers that happen to be working on the mobile platform.
-

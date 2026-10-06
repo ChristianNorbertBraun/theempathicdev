@@ -1,12 +1,11 @@
 ---
-title: "Agentic Engineering: 11 Tips for iOS Development with AI"
+title: 'Agentic Engineering: 11 Tips for iOS Development with AI'
 author: Christian
 date: 2025-10-18
 layout: blog
-description: "Practical tips for using AI agents like Claude Code to build production-quality iOS applications. Learn how to manage context, structure your workflow, and scale your development with AI."
+description: 'Practical tips for using AI agents like Claude Code to build production-quality iOS applications. Learn how to manage context, structure your workflow, and scale your development with AI.'
 published: true
 ---
-
 
 My tips on vibe coding as an iOS engineer, mostly based on work with Claude Code and Sonnet. Even though I've heard otherwise, I think you can get a lot done with Sonnet and don't need the stronger but way hungrier Opus model.
 When I reference "the agent" in this article, I'm talking about Claude. But the tips apply to any agent you use.
@@ -69,6 +68,7 @@ Subtasks are undervalued when it comes to context management in my opinion.
 Often you'll need to find all occurrences of a certain API call or check if some functionality is already implemented. In these cases where your task can be solved by visiting every file independently, you can ask your agent to launch subtasks.
 This basically means that it will search through your files with a fresh context for each one and only returns the results that matter to the main task. This keeps your context clean while analyzing a lot of files.
 An example would be:
+
 ```
 "Please use subtasks to check if we use the new date conversion function
 everywhere where it would make sense."
@@ -91,11 +91,13 @@ As an alternative to using PRs for the review process, I like to add comments in
 
 I don't understand where people get the idea that AI is writing good tests. This does not happen to me, at least not out of the box. It is so easy to just ask your agent to create tests for this feature. For me, prompts like these resulted in a lot of constructor or property tests, not providing any meaningful safety against regressions.
 I always prime my test agent this way:
+
 ```
 Do not write tests that simply test constructors or variable setting.
 Evaluate if a written test is truly validating business logic.
 Good tests should fail, if business logic changes.
 ```
+
 In my experience, this improved the test quality drastically.
 
 ## 10. Split your features into submodules
@@ -119,4 +121,5 @@ Working confidently with agents means finding the right balance between being bo
 **Finally, review strategically, not exhaustively.** If you scrutinize every single line of code the agent generates, you'll lose most of the productivity benefits. Instead, focus your review effort where it matters: carefully examine architecture decisions, core logic, and security-sensitive code. For routine changes like UI adjustments or formatting, a quick glance is often enough. Trust the agent for the mundane work, but bring your expertise to bear on the parts that truly matter.
 
 ## Finally...
+
 These are exciting times. Just when I am about to finish this article Anthropic introduced [Claude Code Skills](https://www.anthropic.com/news/skills). Almost daily there are new announcements. Don't get too attached with a single agent provider and don't stop questioning your workflow. I'm confident that the way we use agents will continue to change.
