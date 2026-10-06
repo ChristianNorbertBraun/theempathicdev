@@ -7,8 +7,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# the same group as pr-preview-publish.yml: pushes to gh-pages never overlap
 concurrency:
-  group: deploy
+  group: gh-pages-publish
   cancel-in-progress: false
 
 permissions:
@@ -43,8 +44,9 @@ jobs:
       - name: Publish build to gh-pages
         run: |
           set -euo pipefail
-          # keeps .nojekyll and CNAME: both come from static/ and are part of build/
-          rsync -a --delete --exclude='.git' build/ pages/
+          # keeps .nojekyll and CNAME: both come from static/ and are part of build/;
+          # keeps the pull request previews (pr-preview-publish.yml) in previews/
+          rsync -a --delete --exclude='.git' --exclude='/previews/' build/ pages/
           cd pages
           if [ -z "$(git status --porcelain)" ]; then
             echo "Nothing to deploy"

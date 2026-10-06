@@ -1,0 +1,168 @@
+name: PR preview publish
+
+# The privileged half of the pull request previews. It only handles DATA (the built site from the
+# artifact, the branch name from the event) and never runs code from a pull request:
+#  - after "PR preview build" succeeded: copy the site to gh-pages/previews/<branch>/ and comment the URL
+#  - when a pull request is closed or merged: delete that folder again
+# `workflow_run` and `pull_request_target` always use THIS file from the default branch, so a pull
+# request cannot change what runs here. Pull requests from forks are ignored.
+on:
+  workflow_run:
+    workflows: ["PR preview build"]
+    types: [completed]
+  pull_request_target:
+    types: [closed]
+
+permissions: {}
+
+# the same group as deploy.yml: pushes to gh-pages never overlap
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Download the built site (data only, nothing from it is executed)
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: preview-site
+          path: site
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: gh-pages
+          path: pages
+
+      - name: Publish the preview and comment the URL
+        env:
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          PR: ${{ github.event.workflow_run.pull_requests[0].number }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -z "${PR:-}" ]; then
+            echo "No pull request of this repository belongs to this run, nothing to publish."
+            exit 0
+          fi
+          # folder name from the branch name: only letters, digits, dot, underscore, hyphen
+          slug=$(printf '%s' "$BRANCH" | tr '/' '-' | tr -c 'A-Za-z0-9._-' '-' | sed -E 's/^[.-]+//; s/[.-]+$//' | cut -c1-60)
+          if [ -z "$slug" ]; then
+            echo "The branch name gives an empty folder name."
+            exit 1
+          fi
+          domain=$(tr -d '[:space:]' < pages/CNAME)
+          if ! printf '%s' "$domain" | grep -Eq '^[A-Za-z0-9.-]+$'; then
+            echo "gh-pages/CNAME does not contain a plain domain name."
+            exit 1
+          fi
+
+          dest="pages/previews/$slug"
+          mkdir -p "$dest"
+          # --no-links: the artifact is untrusted data, never copy symbolic links
+          rsync -r --delete --no-links site/ "$dest/"
+
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A previews
+          if git diff --cached --quiet; then
+            echo "The preview is unchanged."
+          else
+            git commit -q -m "Preview for PR #$PR ($slug) at ${SHA::7}"
+            pushed=0
+            for attempt in 1 2 3; do
+              if git push origin HEAD:gh-pages; then pushed=1; break; fi
+              git pull -q --rebase origin gh-pages
+            done
+            [ "$pushed" = 1 ]
+          fi
+
+          # the preview link lives between two markers in the PR description
+          url="https://$domain/previews/$slug/"
+          printf '%s\n' \
+            '<!-- pr-preview:start -->' \
+            "**Preview:** $url" \
+            "" \
+            "Built from ${SHA::7}. Available about a minute after the publish, deleted when this pull request is closed or merged. Links with absolute paths still point to the live site." \
+            '<!-- pr-preview:end -->' > "$RUNNER_TEMP/block.md"
+          gh api "repos/$REPO/pulls/$PR" --jq '.body // ""' > "$RUNNER_TEMP/body.md"
+          python3 - "$RUNNER_TEMP" <<'PY'
+          import re, sys
+          d = sys.argv[1]
+          body = open(d + "/body.md").read()
+          block = open(d + "/block.md").read().strip()
+          pattern = re.compile(r"<!-- pr-preview:start -->.*?<!-- pr-preview:end -->", re.S)
+          body = pattern.sub(lambda m: block, body) if pattern.search(body) else (body.rstrip() + "\n\n" + block if body.strip() else block)
+          open(d + "/body.md", "w").write(body)
+          PY
+          gh api -X PATCH "repos/$REPO/pulls/$PR" -F body=@"$RUNNER_TEMP/body.md" > /dev/null
+
+  cleanup:
+    if: >-
+      github.event_name == 'pull_request_target' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # only the gh-pages branch is checked out, never the code of the pull request
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: gh-pages
+          path: pages
+
+      - name: Delete the preview and update the comment
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          slug=$(printf '%s' "$BRANCH" | tr '/' '-' | tr -c 'A-Za-z0-9._-' '-' | sed -E 's/^[.-]+//; s/[.-]+$//' | cut -c1-60)
+          if [ -z "$slug" ]; then
+            echo "The branch name gives an empty folder name, nothing to delete."
+            exit 0
+          fi
+          cd pages
+          if [ -d "previews/$slug" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git rm -rq "previews/$slug"
+            git commit -q -m "Remove the preview of PR #$PR ($slug)"
+            pushed=0
+            for attempt in 1 2 3; do
+              if git push origin HEAD:gh-pages; then pushed=1; break; fi
+              git pull -q --rebase origin gh-pages
+            done
+            [ "$pushed" = 1 ]
+          else
+            echo "There is no preview folder for $slug."
+          fi
+          # drop the preview link from the PR description (no-op if there is none)
+          gh api "repos/$REPO/pulls/$PR" --jq '.body // ""' > "$RUNNER_TEMP/body.md"
+          python3 - "$RUNNER_TEMP/body.md" <<'PY'
+          import re, sys
+          path = sys.argv[1]
+          body = open(path).read()
+          new = re.sub(r"\s*<!-- pr-preview:start -->.*?<!-- pr-preview:end -->", "", body, flags=re.S)
+          if new != body:
+              open(path, "w").write(new.rstrip() + "\n")
+          PY
+          gh api -X PATCH "repos/$REPO/pulls/$PR" -F body=@"$RUNNER_TEMP/body.md" > /dev/null

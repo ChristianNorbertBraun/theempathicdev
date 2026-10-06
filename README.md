@@ -36,3 +36,21 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Pull request previews
+
+Every pull request from a branch of this repository is built and published as a preview. The link is added to the pull request description (between `<!-- pr-preview:start -->` and `<!-- pr-preview:end -->`) about a minute after each push, and removed again when the pull request is closed or merged.
+
+```
+https://theempathicdev.de/previews/<slug>/
+```
+
+`<slug>` is the branch name with `/` replaced by `-`, every other character outside `A-Z a-z 0-9 . _ -` replaced by `-`, leading and trailing `.` and `-` removed, cut to 60 characters. `anton/fix-date-abc123` becomes `anton-fix-date-abc123`.
+
+How it works (`.github/workflows/`):
+
+- `pr-preview.yml` builds the pull request with a read-only token and uploads the site as an artifact.
+- `pr-preview-publish.yml` runs from `main`, never executes pull request code, copies the artifact to `previews/<slug>/` on the `gh-pages` branch and updates the description. On close or merge it deletes the folder.
+- `deploy.yml` keeps `previews/` when it deploys `main`.
+
+Limits: no previews for pull requests from forks, and links or images with absolute paths (`/blog`, some `/img/...`) point to the live site.
