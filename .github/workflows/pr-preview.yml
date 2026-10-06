@@ -1,0 +1,44 @@
+name: PR preview build
+
+# Builds the site of every pull request that comes from a branch of THIS repository and hands the
+# result to "PR preview publish" as an artifact.
+#
+# Pull request code runs here, so this workflow can only READ: it has no write permission and no
+# secrets. Publishing happens in pr-preview-publish.yml, which never runs pull request code.
+# Pull requests from forks are skipped.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-preview-build-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      # actions pinned by commit SHA (checkout v4, setup-node v4, upload-artifact v4)
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: preview-site
+          path: build
+          retention-days: 3
