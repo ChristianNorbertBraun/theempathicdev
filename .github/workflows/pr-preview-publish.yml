@@ -92,14 +92,25 @@ jobs:
             [ "$pushed" = 1 ]
           fi
 
+          # the preview link lives between two markers in the PR description
           url="https://$domain/previews/$slug/"
-          body=$(printf '<!-- pr-preview -->\nPreview of this pull request: %s\n\nBuilt from %s. It is available about a minute after the publish and is deleted when the pull request is closed or merged. Links and images with absolute paths still point to the live site.' "$url" "${SHA::7}")
-          id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate --jq '.[] | select(.body | contains("<!-- pr-preview -->")) | .id' | head -n 1)
-          if [ -n "$id" ]; then
-            gh api -X PATCH "repos/$REPO/issues/comments/$id" -f body="$body" > /dev/null
-          else
-            gh api "repos/$REPO/issues/$PR/comments" -f body="$body" > /dev/null
-          fi
+          printf '%s\n' \
+            '<!-- pr-preview:start -->' \
+            "**Preview:** $url" \
+            "" \
+            "Built from ${SHA::7}. Available about a minute after the publish, deleted when this pull request is closed or merged. Links with absolute paths still point to the live site." \
+            '<!-- pr-preview:end -->' > "$RUNNER_TEMP/block.md"
+          gh api "repos/$REPO/pulls/$PR" --jq '.body // ""' > "$RUNNER_TEMP/body.md"
+          python3 - "$RUNNER_TEMP" <<'PY'
+          import re, sys
+          d = sys.argv[1]
+          body = open(d + "/body.md").read()
+          block = open(d + "/block.md").read().strip()
+          pattern = re.compile(r"<!-- pr-preview:start -->.*?<!-- pr-preview:end -->", re.S)
+          body = pattern.sub(lambda m: block, body) if pattern.search(body) else (body.rstrip() + "\n\n" + block if body.strip() else block)
+          open(d + "/body.md", "w").write(body)
+          PY
+          gh api -X PATCH "repos/$REPO/pulls/$PR" -F body=@"$RUNNER_TEMP/body.md" > /dev/null
 
   cleanup:
     if: >-
@@ -144,8 +155,14 @@ jobs:
           else
             echo "There is no preview folder for $slug."
           fi
-          id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate --jq '.[] | select(.body | contains("<!-- pr-preview -->")) | .id' | head -n 1)
-          if [ -n "$id" ]; then
-            gh api -X PATCH "repos/$REPO/issues/comments/$id" -f body='<!-- pr-preview -->
-          The preview of this pull request was removed because the pull request is closed or merged.' > /dev/null
-          fi
+          # drop the preview link from the PR description (no-op if there is none)
+          gh api "repos/$REPO/pulls/$PR" --jq '.body // ""' > "$RUNNER_TEMP/body.md"
+          python3 - "$RUNNER_TEMP/body.md" <<'PY'
+          import re, sys
+          path = sys.argv[1]
+          body = open(path).read()
+          new = re.sub(r"\s*<!-- pr-preview:start -->.*?<!-- pr-preview:end -->", "", body, flags=re.S)
+          if new != body:
+              open(path, "w").write(new.rstrip() + "\n")
+          PY
+          gh api -X PATCH "repos/$REPO/pulls/$PR" -F body=@"$RUNNER_TEMP/body.md" > /dev/null
