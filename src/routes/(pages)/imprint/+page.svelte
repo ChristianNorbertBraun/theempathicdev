@@ -3,8 +3,9 @@
 	<div>
 		<h2 class="text-2xl font-bold">Contact</h2>
 		<p>Christian Braun</p>
-		<a class="hover:bg-black hover:text-white" href="mailto:christian.braun@theempathicdev.de"
-			>christian.braun[at]theempathicdev.de</a
+		<a
+			class="hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+			href="mailto:christian.braun@theempathicdev.de">christian.braun[at]theempathicdev.de</a
 		>
 		<br />
 		<br />

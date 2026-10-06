@@ -16,15 +16,15 @@
 </script>
 
 <div class="md:flex md:items-center md:justify-center">
-	<div class="prose">
+	<div class="prose dark:prose-invert">
 		<h1
 			class="text-3xl md:text-5xl break-words overflow-hidden"
 			style="letter-spacing: 0.05em; line-height: 1.3; margin-bottom: 1.5rem;"
 		>
 			{data.frontmatter.title}
 		</h1>
-		<p class="text-sm text-slate-500">{dateString(data.frontmatter.date)}</p>
-		<article class="prose">
+		<p class="text-sm text-slate-500 dark:text-slate-400">{dateString(data.frontmatter.date)}</p>
+		<article class="prose dark:prose-invert">
 			<svelte:component this={component} />
 		</article>
 	</div>
@@ -43,6 +43,11 @@
 		margin-top: 0.1em;
 		color: #374151; /* Tailwind gray-700 */
 		font-family: Georgia, serif;
+	}
+
+	:global(.dark) article :global(h2 + p::first-letter),
+	:global(.dark) article :global(h2 + img + p::first-letter) {
+		color: #e2e8f0; /* Tailwind slate-200 */
 	}
 
 	/* Responsive inline images - float on desktop, block on mobile */

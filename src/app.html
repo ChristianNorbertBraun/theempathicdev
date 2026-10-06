@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="font-mono bg-slate-100">
+<html lang="en" class="font-mono bg-slate-100 text-gray-900 dark:bg-slate-900 dark:text-slate-100">
 	<head>
 		<title>The empathic dev</title>
 		<meta
@@ -9,6 +9,20 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png?v=3" />
 		<meta name="viewport" content="width=device-width" />
+		<script>
+			// Apply the color theme before the first paint to avoid a flash of the wrong theme
+			try {
+				const theme = localStorage.getItem('theme');
+				if (
+					theme === 'dark' ||
+					(theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				) {
+					document.documentElement.classList.add('dark');
+				}
+			} catch (e) {
+				// localStorage is not available, keep the light theme
+			}
+		</script>
 		%sveltekit.head%
 	</head>
 

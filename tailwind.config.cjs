@@ -1,5 +1,6 @@
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
+	darkMode: 'class',
 
 	theme: {
 		extend: {
@@ -32,6 +33,17 @@ const config = {
 						// Code blocks
 						pre: {
 							overflowY: 'scroll'
+						}
+					}
+				},
+				// Applied together with `dark:prose-invert`
+				invert: {
+					css: {
+						'code:not(pre code)': {
+							backgroundColor: theme('colors.slate.700')
+						},
+						a: {
+							color: theme('colors.emerald.400')
 						}
 					}
 				}
