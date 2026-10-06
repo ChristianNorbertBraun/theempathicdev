@@ -313,3 +313,12 @@ Estimated size: about 80 lines of CSS, 10 lines of config, 15 lines of JS, plus 
 - [ ] Blog post: prose text, headings, links, inline code and code blocks readable in both themes.
 - [ ] Home page: cards, divider and blog list readable in both themes.
 - [ ] Browser without `:has()`: system theme works, page stays usable.
+
+## Risks
+
+- **Insufficient contrast**: the dark token values may miss WCAG AA contrast for muted text, links
+  or the hover states, especially next to the fixed-color brand cards.
+- **Flash of the wrong theme**: if the inline script in `<head>` fails or is blocked (e.g. by a
+  strict Content Security Policy), the page briefly renders in the system theme before switching.
+- **Missed hard-coded colors**: colors outside the listed files (e.g. in Markdown content, inline
+  SVGs or third-party embeds) stay light and may become unreadable on a dark background.
