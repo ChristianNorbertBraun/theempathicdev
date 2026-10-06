@@ -29,19 +29,25 @@
 					? '4'
 					: '8'} gap-2 transition-property: all transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) transition-duration: 150ms {darkMode
 					? 'hover:bg-slate-700'
-					: 'hover:bg-slate-200'}"
+					: 'hover:bg-slate-200 dark:hover:bg-slate-800'}"
 			>
-				<h2 class="text-2xl font-semibold {darkMode ? 'text-white' : 'text-gray-800'}">
+				<h2
+					class="text-2xl font-semibold {darkMode
+						? 'text-white'
+						: 'text-gray-800 dark:text-slate-100'}"
+				>
 					{post.title}
 				</h2>
-				<p class="text-sm {darkMode ? 'text-slate-300' : 'text-slate-500'}">
+				<p class="text-sm {darkMode ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400'}">
 					{dateString(post.date)}
 				</p>
-				<p class={darkMode ? 'text-slate-300' : 'text-slate-600'}>{post.description}..</p>
+				<p class={darkMode ? 'text-slate-300' : 'text-slate-600 dark:text-slate-300'}>
+					{post.description}..
+				</p>
 			</div>
 		</a>
 		{#if !compactView}
-			<hr class="w-4/5" />
+			<hr class="w-4/5 dark:border-slate-700" />
 		{/if}
 	{/each}
 </div>

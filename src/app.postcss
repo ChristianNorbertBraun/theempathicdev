@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+	.dark .prose code:not(pre code) {
+		@apply bg-slate-700;
+	}
+}

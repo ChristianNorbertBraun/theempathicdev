@@ -56,7 +56,7 @@
 	</Card>
 
 	<div class="md:col-span-10 mt-8 mb-6">
-		<hr class="border-t border-gray-300" />
+		<hr class="border-t border-gray-300 dark:border-slate-700" />
 	</div>
 
 	<div class="md:col-span-10">
