@@ -1,6 +1,6 @@
 ---
 title: NavigationSplitView's Hidden Trap – Don't Get Stuck Like I Did
-author: Christian
+author: Norbert
 date: 2025-05-16
 layout: blog
 description: NavigationSplitView seems easy to use. And Apple's example projects are. But step just a little outside the basic path, and you can easily run into problems.

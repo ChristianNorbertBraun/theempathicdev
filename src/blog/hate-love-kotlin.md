@@ -1,6 +1,6 @@
 ---
 title: I Hated Kotlin... Until I Didn’t – Why KMP Might Be Worth It for iOS Developers
-author: Christian
+author: Norbert
 date: 2025-02-09
 layout: blog
 description: Taking a closer look into Kotlin and KMP can feel like bonding with the enemy for an iOS developer. I really wanted to hate it, but my journey took an unexpected turn. This is my story of moving from resistance to understanding, exploring the quirks, challenges, and ultimately rediscovering what it truly means to be a developer.

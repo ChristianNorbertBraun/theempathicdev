@@ -1,6 +1,6 @@
 ---
 title: The Issue with Protocol Extensions
-author: Christian
+author: Norbert
 date: 2024-06-23
 layout: blog
 description: Protocol extensions are a great way to simplify the creation of conforming types or enable types to perform actions by simply adding a protocol conformance. However, this convenience comes with its own set of drawbacks. Let's explore why protocol extensions might not always behave as expected and how to effectively resolve these issues.
