@@ -1,6 +1,6 @@
 ---
 title: 'Agentic Engineering: 11 Tips for iOS Development with AI'
-author: Christian
+author: Norbert
 date: 2025-10-18
 layout: blog
 description: 'Practical tips for using AI agents like Claude Code to build production-quality iOS applications. Learn how to manage context, structure your workflow, and scale your development with AI.'

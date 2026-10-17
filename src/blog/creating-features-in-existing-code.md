@@ -1,6 +1,6 @@
 ---
 title: Adding Features to an existing Codebase
-author: Christian
+author: Norbert
 date: 2024-05-09
 layout: blog
 description: Updating a legacy system can feel like unraveling a complex knot, especially when the changes impact several parts of the app. This is a challenge I face often, and I've been on a quest to find a strategy that works consistently for me.
